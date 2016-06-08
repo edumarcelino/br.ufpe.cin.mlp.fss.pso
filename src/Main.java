@@ -70,6 +70,8 @@ public class Main {
 			datasetTeste.add(datasetCarregado.get(i));
 		}
 
+		int quantidadeClasses = retornaQuantidadeClasses(datasetCarregado);
+		
 		for (int i = 0; i < iteracoes; i++) {
 
 			for (Iterator iterator = datasetTreino.iterator(); iterator
@@ -123,6 +125,24 @@ public class Main {
 		System.out.println("SAIDA DA MLP: " + saidaRede[1] + " - "
 				+ saidaRede[2] + " - " + saidaRede[3]);
 
+	}
+
+	private static int retornaQuantidadeClasses(
+			ArrayList<String[]> datasetCarregado) {
+		int quantidadeClasse = 0;
+		ArrayList<String> listTextoTemp = new ArrayList<String>();
+		
+		for (Iterator iterator = datasetCarregado.iterator(); iterator.hasNext();) {
+			String[] datasetTemp = (String[]) iterator.next();
+			
+			if(!listTextoTemp.contains(datasetTemp[datasetTemp.length-1])){
+				listTextoTemp.add(datasetTemp[datasetTemp.length - 1]);
+			}
+		}
+		
+		quantidadeClasse = listTextoTemp.size();
+		
+		return quantidadeClasse;
 	}
 
 }
