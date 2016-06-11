@@ -3,39 +3,36 @@ package pso;
 import java.util.Arrays;
 
 public class Particula {
-	
+
 	// Posicao das particulas , equivalente a NN pesos da rede neural
-	public double[] position; 
-	
-	// measure of fitness
-	public double error; 
-	
+	public double[] posicao;
+
 	// Medida de velocidade da particula
-	public double[] velocity;
+	public double[] velocidade;
 
 	// Melhor posicao encontrada pela particula
-	public double[] bestPosition; 
-	
-	public double bestError;
+	public double[] melhorPosicao;
 
+	public int quantidadePesos;
 
-	public Particula(double[] posicao, double error, double[] velocidade,
-			double[] melhorPosicao, double melhorErro) {
-		this.position = new double[posicao.length];
+	public double erro;
 
-		this.position = Arrays.copyOf(posicao, 0);
+	public Particula(double[] posicao, double[] velocidade,
+			int quantidadePesos, double erro) {
 
-		this.error = error;
+		this.posicao = new double[quantidadePesos];
 
-		this.velocity = new double[velocidade.length];
+		this.posicao = Arrays.copyOf(posicao, 0);
 
-		this.velocity = Arrays.copyOf(velocidade, 0);
+		this.velocidade = new double[quantidadePesos];
 
-		this.bestPosition = new double[melhorPosicao.length];
+		this.velocidade = Arrays.copyOf(velocidade, 0);
 
-		this.bestPosition = Arrays.copyOf(melhorPosicao, 0);
+		this.melhorPosicao = new double[quantidadePesos];
 
-		this.bestError = melhorErro;
+		this.melhorPosicao = Arrays.copyOf(melhorPosicao, 0);
+
+		this.erro = erro;
 
 	}
 

@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Vector;
 
+import MLP.MLPHibrida;
+
 import util.Util;
 
 public class Main {
@@ -15,12 +17,6 @@ public class Main {
 	private static int iteracoes = 20;
 
 	private static double taxaAprendizagem;
-
-	private static int numeroNeuroniosCamadaEntrada = 4;
-
-	private static int numeroNeuroniosCamadaSaida = 3;
-
-	private static int numeroNeuroniosCamadaEscondida = 6;
 
 	public static void main(String[] args) {
 
@@ -31,7 +27,7 @@ public class Main {
 
 			datasetCarregado = Util
 					.leituraCSV(
-							"/home/ejmvs/workspace/br.ufpe.cin.mlp.fss.pso/src/dataset/iris_mapped.csv",
+							"/home/ejmvs/workspace/br.ufpe.cin.mlp.fss.pso.git/src/dataset/iris_mapped.csv",
 							",");
 
 		} catch (IOException e1) {
@@ -44,8 +40,9 @@ public class Main {
 		System.out.println("TAXA DE APRENDIZAGEM = " + taxaAprendizagem);
 		System.out.println("QUANTIDADE DE ITERACOES = " + iteracoes + "\n");
 
-		MLPHibrida mlp = new MLPHibrida(numeroNeuroniosCamadaEntrada,
-				numeroNeuroniosCamadaEscondida, numeroNeuroniosCamadaSaida);
+		MLPHibrida mlp = new MLPHibrida(Util.NUMERO_NEURONIOS_CAMADA_ENTRADA,
+				Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA,
+				Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
 
 		// Inicio do treinamento
 		System.out.println("Training...");
@@ -71,7 +68,7 @@ public class Main {
 		}
 
 		int quantidadeClasses = retornaQuantidadeClasses(datasetCarregado);
-		
+
 		for (int i = 0; i < iteracoes; i++) {
 
 			for (Iterator iterator = datasetTreino.iterator(); iterator
@@ -95,7 +92,7 @@ public class Main {
 
 				// Treinamento para a rede neural
 				mlp.treinamento(padrao, saidaEsperada,
-						mlp.TREINAMENTO_BACK_PROPAGATION);
+						mlp.TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION);
 
 			}
 		}
@@ -131,17 +128,18 @@ public class Main {
 			ArrayList<String[]> datasetCarregado) {
 		int quantidadeClasse = 0;
 		ArrayList<String> listTextoTemp = new ArrayList<String>();
-		
-		for (Iterator iterator = datasetCarregado.iterator(); iterator.hasNext();) {
+
+		for (Iterator iterator = datasetCarregado.iterator(); iterator
+				.hasNext();) {
 			String[] datasetTemp = (String[]) iterator.next();
-			
-			if(!listTextoTemp.contains(datasetTemp[datasetTemp.length-1])){
+
+			if (!listTextoTemp.contains(datasetTemp[datasetTemp.length - 1])) {
 				listTextoTemp.add(datasetTemp[datasetTemp.length - 1]);
 			}
 		}
-		
+
 		quantidadeClasse = listTextoTemp.size();
-		
+
 		return quantidadeClasse;
 	}
 

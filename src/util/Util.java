@@ -6,6 +6,16 @@ import java.util.ArrayList;
 
 public class Util {
 
+	public static int NUMERO_NEURONIOS_CAMADA_ENTRADA = 4;
+
+	public static int NUMERO_NEURONIOS_CAMADA_SAIDA = 3;
+
+	public static int NUMERO_NEURONIOS_CAMADA_ESCONDIDA = 1;
+	
+	public static int NUMERO_ITERACOES_PSO = 30;
+	
+	public static double ERRO_PARADA_PSO = 0.06;
+	
 	/**
 	 * Metodo para realizar a leitura do arquivo csv
 	 * 
