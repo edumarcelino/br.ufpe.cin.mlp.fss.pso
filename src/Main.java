@@ -55,8 +55,10 @@ public class Main {
 				.round(datasetCarregado.size() * 0.09);
 
 		ArrayList<String[]> datasetTreino = new ArrayList<String[]>();
+		
 		ArrayList<String[]> datasetTeste = new ArrayList<String[]>();
 
+		
 		// Inicializa o dataset de treino
 		for (int i = 0; i < qtdLinhasNoventaPorcento; i++) {
 			datasetTreino.add(datasetCarregado.get(i));

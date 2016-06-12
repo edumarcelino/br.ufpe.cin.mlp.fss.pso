@@ -19,24 +19,29 @@ public class Particula {
 
 	public double erro;
 
-	public Particula(double[] posicao, double[] velocidade, double erro) {
+	public Particula(double[] posicao, double[] velocidade) {
 
-		int quantidadePesos = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA * Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)+ (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA* Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
-		
-		this.posicao = new double[quantidadePesos];
+		this.quantidadePesos = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA * Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)
+				+ (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA * Util.NUMERO_NEURONIOS_CAMADA_SAIDA)
+				+ Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA
+				+ Util.NUMERO_NEURONIOS_CAMADA_SAIDA;
 
-		this.posicao = Arrays.copyOf(posicao, 0);
+		this.posicao = posicao;
 
-		this.velocidade = new double[quantidadePesos];
-
-		this.velocidade = Arrays.copyOf(velocidade, 0);
+		this.velocidade = velocidade;
 
 		this.melhorPosicao = new double[quantidadePesos];
 
 		this.melhorPosicao = Arrays.copyOf(melhorPosicao, 0);
 
-		this.erro = erro;
+	}
 
+	public double getErro() {
+		return erro;
+	}
+
+	public void setErro(double erro) {
+		this.erro = erro;
 	}
 
 }

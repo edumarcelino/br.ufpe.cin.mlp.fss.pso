@@ -167,9 +167,7 @@ public class MLPHibrida {
 					saidaEsperada[2] = Double.parseDouble(linha[6]);
 
 					erro = pso.meanSquaredError(padrao, saidaEsperada,
-							novaPosicao, Util.NUMERO_NEURONIOS_CAMADA_ENTRADA,
-							Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA,
-							Util.NUMERO_NEURONIOS_CAMADA_SAIDA, dataset
+							novaPosicao, dataset
 									.getDatasetTeste().size());
 
 				}
