@@ -170,6 +170,8 @@ public class MLPHibrida {
 					erro = pso.meanSquaredError(padrao, saidaEsperada,
 							novaPosicao, dataset
 									.getDatasetTeste().size());
+					
+					particula.setErro(erro);
 
 				}
 			}
