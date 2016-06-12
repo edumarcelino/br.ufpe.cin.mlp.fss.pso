@@ -14,7 +14,7 @@ import util.Util;
 public class Main {
 
 	// Parametros
-	private static int iteracoes = 20;
+	private static int iteracoes = 200;
 
 	private static double taxaAprendizagem;
 
@@ -73,6 +73,7 @@ public class Main {
 
 			for (Iterator iterator = datasetTreino.iterator(); iterator
 					.hasNext();) {
+				
 				String[] linha = (String[]) iterator.next();
 
 				// TODO: Tentar transformar de forma generica

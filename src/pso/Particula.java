@@ -2,6 +2,8 @@ package pso;
 
 import java.util.Arrays;
 
+import util.Util;
+
 public class Particula {
 
 	// Posicao das particulas , equivalente a NN pesos da rede neural
@@ -17,9 +19,10 @@ public class Particula {
 
 	public double erro;
 
-	public Particula(double[] posicao, double[] velocidade,
-			int quantidadePesos, double erro) {
+	public Particula(double[] posicao, double[] velocidade, double erro) {
 
+		int quantidadePesos = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA * Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)+ (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA* Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
+		
 		this.posicao = new double[quantidadePesos];
 
 		this.posicao = Arrays.copyOf(posicao, 0);

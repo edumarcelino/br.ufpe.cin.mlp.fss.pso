@@ -23,7 +23,7 @@ public class PSO {
 
 	public double r1, r2;
 
-	public int numWeights = 15;
+	public int numeroPesos = 15;
 
 	public double bestGlobalError = Double.MAX_VALUE;
 
@@ -38,15 +38,21 @@ public class PSO {
 	public void inicializaEnxame(int quantidadeParticulas) {
 
 		enxame = new Particula[quantidadeParticulas];
-		
-		numWeights = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA * Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)+ (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA* Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
-		
+
+		numeroPesos = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA * Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)
+				+ (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA * Util.NUMERO_NEURONIOS_CAMADA_SAIDA)+ Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA + Util.NUMERO_NEURONIOS_CAMADA_SAIDA;
+
+		// Itera no enxame de particulas
 		for (int i = 0; i < enxame.length; ++i) {
-			
-			double[] randomPosition = new double[numWeights];
+
+			// Randomiza a posicao inicial das particulas.
+			double[] randomPosition = new double[numeroPesos];
+
 			
 			for (int j = 0; j < randomPosition.length; ++j) {
+				
 				randomPosition[j] = (maxX - minX) * Math.random() + minX;
+			
 			}
 
 			Dataset dataset = new Dataset();
@@ -77,7 +83,7 @@ public class PSO {
 
 			}
 
-			double[] randomVelocity = new double[numWeights];
+			double[] randomVelocity = new double[numeroPesos];
 
 			for (int j = 0; j < randomVelocity.length; ++j) {
 				double lo = 0.1 * minX;
@@ -85,8 +91,7 @@ public class PSO {
 				randomVelocity[j] = (hi - lo) * Math.random() + lo;
 
 			}
-			enxame[i] = new Particula(randomPosition, randomVelocity,
-					numWeights, erro);
+			enxame[i] = new Particula(randomPosition, randomVelocity, erro);
 			// does current Particle have global best position/solution?
 			if (enxame[i].erro < bestGlobalError) {
 				bestGlobalError = enxame[i].erro;
@@ -127,13 +132,15 @@ public class PSO {
 			int numeroNeuroniosEscondida, int numeroNeuroniosSaida,
 			int tamanhoBaseTreinamento) {
 
-		MLPHibrida mlpTemp = new MLPHibrida(numeroNeuroniosEntrada,
-				numeroNeuroniosEscondida, numeroNeuroniosSaida);
+		MLPHibrida mlpTemp = new MLPHibrida(
+				Util.NUMERO_NEURONIOS_CAMADA_ENTRADA,
+				Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA,
+				Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
 
 		mlpTemp.setPesos(weights);
 
-		double[] xValues = new double[mlpTemp.getNumeroNeuroniosEntrada()]; // inputs
-		double[] tValues = new double[mlpTemp.getNumeroNeuroniosSaida()]; // targets
+		double[] xValues = new double[Util.NUMERO_NEURONIOS_CAMADA_ENTRADA]; // inputs
+		double[] tValues = new double[Util.NUMERO_NEURONIOS_CAMADA_SAIDA]; // targets
 
 		double sumSquaredError = 0.0;
 
@@ -141,8 +148,10 @@ public class PSO {
 
 			double[] saidaRede = mlpTemp.apresentaPadrao(padrao);
 
-			for (int j = 0; j < saidaRede.length; ++j)
-				sumSquaredError += ((saidaRede[j] - saidaEsperada[j]) * (saidaRede[j] - saidaEsperada[j]));
+			for (int j = 0; j < saidaEsperada.length; ++j){
+				System.out.println("j: "+ j);
+				sumSquaredError += ((saidaRede[j+1] - saidaEsperada[j]) * (saidaRede[j+1] - saidaEsperada[j]));
+			}	
 		}
 		return sumSquaredError / tamanhoBaseTreinamento;
 	}

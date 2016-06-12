@@ -130,10 +130,14 @@ public class MLPHibrida {
 	}
 
 	private void psoTreinamento(double[] saidaDesejada) {
+		
 		PSO pso = new PSO();
 
+		// Inicializa 15 particulas no enxame do PSO.
 		pso.inicializaEnxame(15);
+		
 		int numIteracoes = Util.NUMERO_ITERACOES_PSO;
+		
 		while (numIteracoes > 0 && pso.bestGlobalError > Util.ERRO_PARADA_PSO) {
 
 			for (Particula particula : pso.enxame) {
@@ -271,31 +275,33 @@ public class MLPHibrida {
 
 	public void setPesos(double[] pesos) {
 
-
-		int numeroPesos = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA*Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)+(Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA+ Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
+		int numeroPesos = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA * Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)
+				+ (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA + Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
 
 		if (pesos.length != numeroPesos) {
 			new Exception("Erro no tamanho dos pesos.");
 		}
 
-		int k = 0; 
+		int k = 0;
 
-		for (int i = 0; i < Util.NUMERO_NEURONIOS_CAMADA_ENTRADA; ++i) {
-			for (int j = 1; j < Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA; ++j) {
-				pesosCamadaEntradaEscondida[i][j] = pesos[k++];
-				System.out.println("i:" + i);
-				System.out.println("j:" + j);
-				System.out.println("K:" + k);
-			}
-
-		}
-
-		for (int i = 0; i < Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA; ++i) {
-			for (int j = 1; j < Util.NUMERO_NEURONIOS_CAMADA_SAIDA; ++j) {
-				pesosCamadaEscondidaSaida[i][j] = pesos[k++];
-				System.out.println("K:" + k);
+		for (int j = 1; j <= Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA; j++) {
+			for (int i = 0; i <= Util.NUMERO_NEURONIOS_CAMADA_ENTRADA; i++) {
+				System.out.println("i:" + i + " j: " + j + " K:" + k
+						+ " peso: " + pesos[k]);
+				pesosCamadaEntradaEscondida[j][i] = pesos[k++];
 			}
 		}
+
+		System.out.println("--------------------------------");
+
+		for (int j = 1; j <= Util.NUMERO_NEURONIOS_CAMADA_SAIDA; j++) {
+			for (int i = 0; i <= Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA; i++) {
+				System.out.println("i:" + i + " j: " + j + " K:" + k + " peso:"
+						+ pesos[k]);
+				pesosCamadaEscondidaSaida[j][i] = pesos[k++];
+			}
+		}
+
 	}
 
 	public int getNumeroNeuroniosEntrada() {
