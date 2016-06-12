@@ -6,15 +6,44 @@ import java.util.ArrayList;
 
 public class Util {
 
+	// Constantes da MLP
+
 	public static int NUMERO_NEURONIOS_CAMADA_ENTRADA = 4;
 
 	public static int NUMERO_NEURONIOS_CAMADA_SAIDA = 3;
 
 	public static int NUMERO_NEURONIOS_CAMADA_ESCONDIDA = 1;
+
+	// Fim das constantes da MLP
+
+	// Constantes do PSO
 	
 	public static int NUMERO_ITERACOES_PSO = 30;
 	
 	public static double ERRO_PARADA_PSO = 0.06;
+
+	// Fim das constantes do PSO
+
+	//Constantes do Fish
+
+	public static double STEP_IND_INCIAL = 1.0; // Testaram com 10, 1 e 0.1 % do espaco de busca
+
+	public static double STEP_COLECTIVE_INCIAL = 1.0; // Testaram com 0.01, 0.001 e 0.0001 % do espaco de busca
+
+	public static double STEP_IND_FINAL = 0.00001;// Testaram com 10, 1 e 0.1 % do espaco de busca
+
+	public static double STEP_COLECTIVE_FINAL = 0.00001; // Testaram com 0.01, 0.001 e 0.0001 % do espaco de busca
+
+	public static double W_SCALE = 5000; // Peso maximo dos peixes; Metade do numero de iteracoes usadas no artigo original
+
+	public static double W_MINIMUM = 1; // Peso minimo dos peixes
+
+	public static int FISH_QUANTITY = 30; // Mesmo numero usado no artigo
+
+	public static double NUMBER_OF_ITERATIONS = 10000; // Tambem retirado do artigo original
+
+	//Fim das constantes do Fish
+
 	
 	/**
 	 * Metodo para realizar a leitura do arquivo csv
