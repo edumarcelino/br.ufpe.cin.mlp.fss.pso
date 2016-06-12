@@ -142,16 +142,23 @@ public class MLPHibrida {
 
 			for (Particula particula : pso.enxame) {
 
-				double[] novaVelocidade = pso.atualizaVelocidade(particula);
 				
-				double[] novaPosicao = pso.atualizaPosicao(particula,
-						novaVelocidade);
 				Dataset dataset = new Dataset();
 				ArrayList<String[]> dt = dataset.getDatasetTreino();
 				double erro = 0;
 
 				for (Iterator iterator = dt.iterator(); iterator.hasNext();) {
 
+					double[] novaVelocidade = pso.atualizaVelocidade(particula);
+					
+					particula.velocidade = novaVelocidade;
+					
+					double[] novaPosicao = pso.atualizaPosicao(particula,
+							novaVelocidade);
+					
+					particula.posicao = novaPosicao;
+					
+					
 					String[] linha = (String[]) iterator.next();
 
 					// Converte a linha do dataset para treinar a rede MLP
@@ -168,7 +175,7 @@ public class MLPHibrida {
 					saidaEsperada[2] = Double.parseDouble(linha[6]);
 
 					erro = pso.meanSquaredError(padrao, saidaEsperada,
-							novaPosicao, dataset
+							particula.posicao, dataset
 									.getDatasetTeste().size());
 					
 					particula.setErro(erro);
@@ -284,21 +291,23 @@ public class MLPHibrida {
 		}
 
 		int k = 0;
-
+		System.out.println("CAMADA ESCONDIDA - ENTRADA");
 		for (int j = 1; j <= Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA; j++) {
 			for (int i = 0; i <= Util.NUMERO_NEURONIOS_CAMADA_ENTRADA; i++) {
 				System.out.println("i:" + i + " j: " + j + " K:" + k
 						+ " peso: " + pesos[k]);
+				System.out.println("------------------------------------------------------------");
 				pesosCamadaEntradaEscondida[j][i] = pesos[k++];
 			}
 		}
 
-		System.out.println("--------------------------------");
-
+		System.out.println("####################################################################");
+		System.out.println("CAMADA SAIDA - ESCONDIDA");
 		for (int j = 1; j <= Util.NUMERO_NEURONIOS_CAMADA_SAIDA; j++) {
 			for (int i = 0; i <= Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA; i++) {
 				System.out.println("i:" + i + " j: " + j + " K:" + k + " peso:"
 						+ pesos[k]);
+				System.out.println("------------------------------------------------------------");
 				pesosCamadaEscondidaSaida[j][i] = pesos[k++];
 			}
 		}

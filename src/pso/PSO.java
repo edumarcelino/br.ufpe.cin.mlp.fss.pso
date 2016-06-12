@@ -119,6 +119,11 @@ public class PSO {
 		for (int i = 0; i < padrao.length; ++i) {
 
 			double[] saidaRede = mlpTemp.apresentaPadrao(padrao);
+			
+			for (int j = 0; j < saidaRede.length; j++) {
+				System.out.println("Saida Rede:"+ saidaRede[i]);
+			}
+			System.out.println("-------------------------------------------------");
 
 			for (int j = 0; j < saidaEsperada.length; ++j) {
 				sumSquaredError += ((saidaRede[j + 1] - saidaEsperada[j]) * (saidaRede[j + 1] - saidaEsperada[j]));
