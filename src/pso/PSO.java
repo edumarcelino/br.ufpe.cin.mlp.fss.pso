@@ -23,11 +23,14 @@ public class PSO {
 
 	public double r1, r2;
 
-	public int numeroPesos = 15;
+	public int numeroPesos = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA * Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)
+			+ (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA * Util.NUMERO_NEURONIOS_CAMADA_SAIDA)
+			+ Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA
+			+ Util.NUMERO_NEURONIOS_CAMADA_SAIDA;
 
 	public double bestGlobalError = Double.MAX_VALUE;
 
-	double[] bestGlobalPosition;
+	double[] bestGlobalPosition = new double[numeroPesos]; 
 
 	public Particula[] enxame;
 
@@ -43,13 +46,13 @@ public class PSO {
 				+ (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA * Util.NUMERO_NEURONIOS_CAMADA_SAIDA)
 				+ Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA
 				+ Util.NUMERO_NEURONIOS_CAMADA_SAIDA;
-		
-		double[] randomPosition = new double[numeroPesos];
-		
-		double[] randomVelocity = new double[numeroPesos];
-		
 
-		// Itera no enxame de particulas para iniciar todas as particulas randomicamente
+		double[] randomPosition = new double[numeroPesos];
+
+		double[] randomVelocity = new double[numeroPesos];
+
+		// Itera no enxame de particulas para iniciar todas as particulas
+		// randomicamente
 		for (int i = 0; i < enxame.length; ++i) {
 
 			// Randomiza a posicao inicial das particulas.
@@ -68,54 +71,13 @@ public class PSO {
 			
 			enxame[i] = new Particula(randomPosition, randomVelocity);
 		}
-		
-		for (int i = 0; i < enxame.length; ++i) {
-		
-			Dataset dataset = new Dataset();
-			
-			ArrayList<String[]> dt = dataset.getDatasetTreino();
 
-			double erro = 0;
-			
-			for (Iterator iterator = dt.iterator(); iterator.hasNext();) {
-				
-				String[] linha = (String[]) iterator.next();
-
-				// Converte a linha do dataset para treinar a rede MLP
-				double[] padrao = new double[4];
-				padrao[0] = Double.parseDouble(linha[0]);
-				padrao[1] = Double.parseDouble(linha[1]);
-				padrao[2] = Double.parseDouble(linha[2]);
-				padrao[3] = Double.parseDouble(linha[3]);
-
-				// Converte a saida esperada para o treinamento
-				double[] saidaEsperada = new double[3];
-				saidaEsperada[0] = Double.parseDouble(linha[4]);
-				saidaEsperada[1] = Double.parseDouble(linha[5]);
-				saidaEsperada[2] = Double.parseDouble(linha[6]);
-
-				erro = meanSquaredError(padrao, saidaEsperada, randomPosition,
-						dataset.getDatasetTeste().size());
-
-			}
-
-						
-			
-			// does current Particle have global best position/solution?
-			if (erro < bestGlobalError) {
-				bestGlobalError = erro;
-				bestGlobalPosition = Arrays.copyOf(enxame[i].posicao, 0);
-			}
-		
-		}
-		
-		
 	}
 
 	public double[] atualizaVelocidade(Particula particula) {
 		r1 = Math.random();
 		r2 = Math.random();
-		double[] novaVelocidade = null;
+		double[] novaVelocidade = new double[particula.velocidade.length];
 
 		for (int j = 0; j < particula.velocidade.length; j++) {
 
@@ -129,7 +91,7 @@ public class PSO {
 	}
 
 	public double[] atualizaPosicao(Particula particula, double[] novaVelocidade) {
-		double[] novaPosicao = null;
+		double[] novaPosicao = new double[particula.posicao.length];
 
 		for (int j = 0; j < particula.posicao.length; j++) {
 

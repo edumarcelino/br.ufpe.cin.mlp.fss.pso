@@ -143,6 +143,7 @@ public class MLPHibrida {
 			for (Particula particula : pso.enxame) {
 
 				double[] novaVelocidade = pso.atualizaVelocidade(particula);
+				
 				double[] novaPosicao = pso.atualizaPosicao(particula,
 						novaVelocidade);
 				Dataset dataset = new Dataset();

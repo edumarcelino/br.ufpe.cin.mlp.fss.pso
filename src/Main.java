@@ -14,7 +14,7 @@ import util.Util;
 public class Main {
 
 	// Parametros
-	private static int iteracoes = 200;
+	private static int iteracoes = 100;
 
 	private static double taxaAprendizagem;
 
@@ -55,10 +55,8 @@ public class Main {
 				.round(datasetCarregado.size() * 0.09);
 
 		ArrayList<String[]> datasetTreino = new ArrayList<String[]>();
-		
 		ArrayList<String[]> datasetTeste = new ArrayList<String[]>();
 
-		
 		// Inicializa o dataset de treino
 		for (int i = 0; i < qtdLinhasNoventaPorcento; i++) {
 			datasetTreino.add(datasetCarregado.get(i));
@@ -75,7 +73,6 @@ public class Main {
 
 			for (Iterator iterator = datasetTreino.iterator(); iterator
 					.hasNext();) {
-				
 				String[] linha = (String[]) iterator.next();
 
 				// TODO: Tentar transformar de forma generica

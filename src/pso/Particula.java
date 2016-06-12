@@ -32,7 +32,6 @@ public class Particula {
 
 		this.melhorPosicao = new double[quantidadePesos];
 
-		this.melhorPosicao = Arrays.copyOf(melhorPosicao, 0);
 
 	}
 
