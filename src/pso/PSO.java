@@ -103,6 +103,8 @@ public class PSO {
 		return novaPosicao;
 	}
 
+
+	
 	public double meanSquaredError(double[] padrao, double[] saidaEsperada,
 			double[] weights, int tamanhoBaseTreinamento) {
 
@@ -120,10 +122,10 @@ public class PSO {
 
 		double[] saidaRede = mlpTemp.apresentaPadrao(padrao);
 
-		System.out.print(" Saida Rede: " + saidaRede[1] + " - " + saidaRede[2]
-				+ " - " + saidaRede[3]);
+		//System.out.print(" Saida Rede: " + saidaRede[1] + " - " + saidaRede[2]
+		//		+ " - " + saidaRede[3]);
 
-		for (int i = 0; i < padrao.length; ++i) {
+		for (int i = 0; i < tamanhoBaseTreinamento; ++i) {
 
 			for (int j = 0; j < saidaEsperada.length; ++j) {
 				sumSquaredError += ((saidaRede[j + 1] - saidaEsperada[j]) * (saidaRede[j + 1] - saidaEsperada[j]));
