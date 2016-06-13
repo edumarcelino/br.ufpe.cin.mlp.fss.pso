@@ -30,7 +30,7 @@ public class PSO {
 
 	public double bestGlobalError = Double.MAX_VALUE;
 
-	double[] bestGlobalPosition = new double[numeroPesos];
+	public double[] bestGlobalPosition = new double[numeroPesos];
 
 	public Particula[] enxame;
 
@@ -134,4 +134,22 @@ public class PSO {
 		return sumSquaredError / tamanhoBaseTreinamento;
 	}
 
+	public double getBestGlobalError() {
+		return bestGlobalError;
+	}
+
+	public void setBestGlobalError(double bestGlobalError) {
+		this.bestGlobalError = bestGlobalError;
+	}
+
+	public double[] getBestGlobalPosition() {
+		return bestGlobalPosition;
+	}
+
+	public void setBestGlobalPosition(double[] bestGlobalPosition) {
+		this.bestGlobalPosition = bestGlobalPosition;
+	}
+
+	
+	
 }

@@ -14,7 +14,7 @@ import util.Util;
 public class Main {
 
 	// Parametros
-	private static int iteracoes = 100;
+	private static int iteracoes = 1;
 
 	private static double taxaAprendizagem;
 
@@ -27,7 +27,7 @@ public class Main {
 
 			datasetCarregado = Util
 					.leituraCSV(
-							"/home/ejmvs/workspace/br.ufpe.cin.mlp.fss.pso.git/src/dataset/iris_mapped.csv",
+							"C:/Users/c087956/workspace_luna/br.ufpe.cin.mlp.fss.pso/src/dataset/iris_mapped.csv",
 							",");
 
 		} catch (IOException e1) {
@@ -46,13 +46,14 @@ public class Main {
 
 		// Inicio do treinamento
 		System.out.println("Training...");
+		System.out.println("TAMANHO DATASET: " + datasetCarregado.size());
 
 		// Embaralhando o dataset
 		Collections.shuffle(datasetCarregado);
 
 		// Quantidade de linhas para treinar com 90% dos dados
 		int qtdLinhasNoventaPorcento = (int) Math
-				.round(datasetCarregado.size() * 0.09);
+				.round(datasetCarregado.size() * 0.1);
 
 		ArrayList<String[]> datasetTreino = new ArrayList<String[]>();
 		ArrayList<String[]> datasetTeste = new ArrayList<String[]>();
@@ -69,34 +70,36 @@ public class Main {
 
 		int quantidadeClasses = retornaQuantidadeClasses(datasetCarregado);
 
-		for (int i = 0; i < iteracoes; i++) {
+		 
+		for (Iterator iterator = datasetTreino.iterator(); iterator.hasNext();) {
 
-			for (Iterator iterator = datasetTreino.iterator(); iterator
-					.hasNext();) {
-				String[] linha = (String[]) iterator.next();
+			
+			
+			String[] linha = (String[]) iterator.next();
 
-				// TODO: Tentar transformar de forma generica
+			// TODO: Tentar transformar de forma generica
 
-				// Converte a linha do dataset para treinar a rede MLP
-				double[] padrao = new double[4];
-				padrao[0] = Double.parseDouble(linha[0]);
-				padrao[1] = Double.parseDouble(linha[1]);
-				padrao[2] = Double.parseDouble(linha[2]);
-				padrao[3] = Double.parseDouble(linha[3]);
+			// Converte a linha do dataset para treinar a rede MLP
+			double[] padrao = new double[4];
+			padrao[0] = Double.parseDouble(linha[0]);
+			padrao[1] = Double.parseDouble(linha[1]);
+			padrao[2] = Double.parseDouble(linha[2]);
+			padrao[3] = Double.parseDouble(linha[3]);
 
-				// Converte a saida esperada para o treinamento
-				double[] saidaEsperada = new double[3];
-				saidaEsperada[0] = Double.parseDouble(linha[4]);
-				saidaEsperada[1] = Double.parseDouble(linha[5]);
-				saidaEsperada[2] = Double.parseDouble(linha[6]);
+			// Converte a saida esperada para o treinamento
+			double[] saidaEsperada = new double[3];
+			saidaEsperada[0] = Double.parseDouble(linha[4]);
+			saidaEsperada[1] = Double.parseDouble(linha[5]);
+			saidaEsperada[2] = Double.parseDouble(linha[6]);
 
-				// Treinamento para a rede neural
-				mlp.treinamento(padrao, saidaEsperada,
-						mlp.TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION);
+			// Treinamento para a rede neural
+			mlp.treinamento(padrao, saidaEsperada,
+					mlp.TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION);
 
-			}
 		}
 
+		
+		
 		String[] linhaTempTeste = (String[]) datasetTreino.get(0);
 
 		// TODO: Tentar transformar de forma generica

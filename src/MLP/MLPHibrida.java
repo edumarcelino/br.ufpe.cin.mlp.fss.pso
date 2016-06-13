@@ -105,10 +105,11 @@ public class MLPHibrida {
 	public double[] treinamento(double[] padrao, double[] saidaDesejada,
 			String tipoTreinamento) {
 
-		double[] saidaRede = apresentaPadrao(padrao);
+		
 
 		if (tipoTreinamento.equals(TREINAMENTO_BACK_PROPAGATION)) {
 
+			double[] saidaRede = apresentaPadrao(padrao);
 			backPropagation(saidaDesejada);
 
 		} else if (tipoTreinamento.equals(TREINAMENTO_FISH_SCHOOL_SEARCH)) {
@@ -138,8 +139,9 @@ public class MLPHibrida {
 		
 		int numIteracoes = Util.NUMERO_ITERACOES_PSO;
 		
-		while (numIteracoes > 0 && pso.bestGlobalError > Util.ERRO_PARADA_PSO) {
+		while (numIteracoes > 0 || pso.bestGlobalError > Util.ERRO_PARADA_PSO) {
 
+			System.out.println("NUMERO_ITERACOES_PSO: " + numIteracoes);
 			for (Particula particula : pso.enxame) {
 
 				Dataset dataset = new Dataset();
@@ -179,15 +181,21 @@ public class MLPHibrida {
 							particula.posicao, dataset
 									.getDatasetTeste().size());
 					
+					if(erro < pso.bestGlobalError){
+						pso.setBestGlobalError(erro);
+						pso.setBestGlobalPosition(novaPosicao);
+					}
+					
 					particula.setErro(erro);
-					System.out.println(" ERRO: "+erro);
-
+					System.out.println("PSO BEST GLOBAL ERROR: "+ pso.getBestGlobalError());
+					System.out.println("PSO BEST GLOBAL POSITION: "+ pso.getBestGlobalPosition());
 				}
 			}
 
 			numIteracoes = numIteracoes - 1;
 		}
 
+		
 	}
 
 	/**

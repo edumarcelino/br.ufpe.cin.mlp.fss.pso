@@ -18,7 +18,7 @@ public class Util {
 
 	// Constantes do PSO
 	
-	public static int NUMERO_ITERACOES_PSO = 30;
+	public static int NUMERO_ITERACOES_PSO = 1;
 	
 	public static double ERRO_PARADA_PSO = 0.06;
 
