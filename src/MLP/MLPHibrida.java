@@ -180,7 +180,7 @@ public class MLPHibrida {
 									.getDatasetTeste().size());
 					
 					particula.setErro(erro);
-					System.out.println("ERRO: "+erro);
+					System.out.println(" ERRO: "+erro);
 
 				}
 			}
