@@ -119,7 +119,8 @@ public class MLPHibrida {
 		} else if (tipoTreinamento
 				.equals(TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION)) {
 
-			psoTreinamento(saidaDesejada);
+			double[] pesosPSO = psoTreinamento(saidaDesejada);
+			this.setPesos(pesosPSO);
 
 		}
 
@@ -130,7 +131,7 @@ public class MLPHibrida {
 
 	}
 
-	private void psoTreinamento(double[] saidaDesejada) {
+	private double[] psoTreinamento(double[] saidaDesejada) {
 		
 		PSO pso = new PSO();
 
@@ -141,7 +142,8 @@ public class MLPHibrida {
 		
 		while (numIteracoes > 0 || pso.bestGlobalError > Util.ERRO_PARADA_PSO) {
 
-			System.out.println("NUMERO_ITERACOES_PSO: " + numIteracoes);
+			//System.out.println("NUMERO_ITERACOES_PSO: " + numIteracoes);
+			
 			for (Particula particula : pso.enxame) {
 
 				Dataset dataset = new Dataset();
@@ -187,15 +189,20 @@ public class MLPHibrida {
 					}
 					
 					particula.setErro(erro);
-					System.out.println("PSO BEST GLOBAL ERROR: "+ pso.getBestGlobalError());
-					System.out.println("PSO BEST GLOBAL POSITION: "+ pso.getBestGlobalPosition());
+					
 				}
 			}
 
 			numIteracoes = numIteracoes - 1;
 		}
-
+		System.out.println("PSO BEST GLOBAL ERROR: "+ pso.getBestGlobalError());
+		System.out.print("PSO BEST GLOBAL POSITION: ");
+		for(int i = 0; i < pso.getBestGlobalPosition().length; i++){
+			System.out.print(pso.getBestGlobalPosition()[i]+" ");
+		}
 		
+		
+		return pso.getBestGlobalPosition();
 	}
 
 	/**
@@ -301,23 +308,23 @@ public class MLPHibrida {
 		}
 
 		int k = 0;
-		System.out.println("CAMADA ESCONDIDA - ENTRADA");
+		//System.out.println("CAMADA ESCONDIDA - ENTRADA");
 		for (int j = 1; j <= Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA; j++) {
 			for (int i = 0; i <= Util.NUMERO_NEURONIOS_CAMADA_ENTRADA; i++) {
-				System.out.println("i:" + i + " j: " + j + " K:" + k
-						+ " peso: " + pesos[k]);
-				System.out.println("------------------------------------------------------------");
+				//System.out.println("i:" + i + " j: " + j + " K:" + k
+				//		+ " peso: " + pesos[k]);
+				//System.out.println("------------------------------------------------------------");
 				pesosCamadaEntradaEscondida[j][i] = pesos[k++];
 			}
 		}
 
-		System.out.println("####################################################################");
-		System.out.println("CAMADA SAIDA - ESCONDIDA");
+		//System.out.println("####################################################################");
+		//System.out.println("CAMADA SAIDA - ESCONDIDA");
 		for (int j = 1; j <= Util.NUMERO_NEURONIOS_CAMADA_SAIDA; j++) {
 			for (int i = 0; i <= Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA; i++) {
-				System.out.println("i:" + i + " j: " + j + " K:" + k + " peso:"
-						+ pesos[k]);
-				System.out.println("------------------------------------------------------------");
+				//System.out.println("i:" + i + " j: " + j + " K:" + k + " peso:"
+				//		+ pesos[k]);
+				//System.out.println("------------------------------------------------------------");
 				pesosCamadaEscondidaSaida[j][i] = pesos[k++];
 			}
 		}

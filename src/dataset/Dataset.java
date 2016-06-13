@@ -21,7 +21,7 @@ public class Dataset {
 
 			datasetCarregado = Util
 					.leituraCSV(
-							"/home/ejmvs/workspace/br.ufpe.cin.mlp.fss.pso.git/src/dataset/iris_mapped.csv",
+							"C:/Users/c087956/workspace_luna/br.ufpe.cin.mlp.fss.pso/src/dataset/iris_mapped.csv",
 							",");
 
 		} catch (IOException e1) {
@@ -33,7 +33,7 @@ public class Dataset {
 
 		// Quantidade de linhas para treinar com 90% dos dados
 		int qtdLinhasNoventaPorcento = (int) Math
-				.round(datasetCarregado.size() * 0.09);
+				.round(datasetCarregado.size() * 0.2);
 
 		// Inicializa o dataset de treino
 		for (int i = 0; i < qtdLinhasNoventaPorcento; i++) {

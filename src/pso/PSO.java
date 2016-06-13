@@ -16,7 +16,7 @@ public class PSO {
 	public double w = 0.729;
 
 	// Particula confia em si
-	public double c1 = 1.4;
+	public double c1 = 0.4;
 
 	// Particula confia no bando
 	public double c2 = 1.4;

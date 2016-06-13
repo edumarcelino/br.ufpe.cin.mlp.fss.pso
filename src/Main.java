@@ -53,7 +53,7 @@ public class Main {
 
 		// Quantidade de linhas para treinar com 90% dos dados
 		int qtdLinhasNoventaPorcento = (int) Math
-				.round(datasetCarregado.size() * 0.1);
+				.round(datasetCarregado.size() * 0.2);
 
 		ArrayList<String[]> datasetTreino = new ArrayList<String[]>();
 		ArrayList<String[]> datasetTeste = new ArrayList<String[]>();
@@ -96,10 +96,9 @@ public class Main {
 			mlp.treinamento(padrao, saidaEsperada,
 					mlp.TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION);
 
+			
 		}
 
-		
-		
 		String[] linhaTempTeste = (String[]) datasetTreino.get(0);
 
 		// TODO: Tentar transformar de forma generica
