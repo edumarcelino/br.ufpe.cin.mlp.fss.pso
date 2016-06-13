@@ -118,6 +118,7 @@ public class Main {
 
 		double[] saidaRede = mlp.apresentaPadrao(padrao);
 
+		System.out.println("");
 		System.out.println("SAIDA ESPERADA: " + saidaEsperada[0] + " - "
 				+ saidaEsperada[1] + " - " + saidaEsperada[2]);
 
