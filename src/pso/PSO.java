@@ -30,7 +30,7 @@ public class PSO {
 
 	public double bestGlobalError = Double.MAX_VALUE;
 
-	double[] bestGlobalPosition = new double[numeroPesos]; 
+	double[] bestGlobalPosition = new double[numeroPesos];
 
 	public Particula[] enxame;
 
@@ -63,12 +63,14 @@ public class PSO {
 
 			}
 			for (int j = 0; j < randomVelocity.length; ++j) {
-				double lo = 0.1 * minX;
-				double hi = 0.1 * maxX;
-				randomVelocity[j] = (hi - lo) * Math.random() + lo;
 
+				double lo = 0.1 * minX;
+
+				double hi = 0.1 * maxX;
+
+				randomVelocity[j] = (hi - lo) * Math.random() + lo;
 			}
-			
+
 			enxame[i] = new Particula(randomPosition, randomVelocity);
 		}
 
@@ -116,14 +118,12 @@ public class PSO {
 
 		double sumSquaredError = 0.0;
 
-		for (int i = 0; i < padrao.length; ++i) {
+		double[] saidaRede = mlpTemp.apresentaPadrao(padrao);
 
-			double[] saidaRede = mlpTemp.apresentaPadrao(padrao);
-			
-			for (int j = 0; j < saidaRede.length; j++) {
-				System.out.println("Saida Rede:"+ saidaRede[i]);
-			}
-			System.out.println("-------------------------------------------------");
+		System.out.print(" Saida Rede: " + saidaRede[1] + " - " + saidaRede[2]
+				+ " - " + saidaRede[3]);
+
+		for (int i = 0; i < padrao.length; ++i) {
 
 			for (int j = 0; j < saidaEsperada.length; ++j) {
 				sumSquaredError += ((saidaRede[j + 1] - saidaEsperada[j]) * (saidaRede[j + 1] - saidaEsperada[j]));

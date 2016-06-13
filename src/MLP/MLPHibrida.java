@@ -142,12 +142,13 @@ public class MLPHibrida {
 
 			for (Particula particula : pso.enxame) {
 
-				
 				Dataset dataset = new Dataset();
-				ArrayList<String[]> dt = dataset.getDatasetTreino();
+				
+				ArrayList<String[]> dtTreino = dataset.getDatasetTreino();
+				
 				double erro = 0;
 
-				for (Iterator iterator = dt.iterator(); iterator.hasNext();) {
+				for (Iterator iterator = dtTreino.iterator(); iterator.hasNext();) {
 
 					double[] novaVelocidade = pso.atualizaVelocidade(particula);
 					
@@ -179,6 +180,7 @@ public class MLPHibrida {
 									.getDatasetTeste().size());
 					
 					particula.setErro(erro);
+					System.out.println("ERRO: "+erro);
 
 				}
 			}
