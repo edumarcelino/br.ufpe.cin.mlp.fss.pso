@@ -12,7 +12,7 @@ public class Util {
 
 	public static int NUMERO_NEURONIOS_CAMADA_SAIDA = 3;
 
-	public static int NUMERO_NEURONIOS_CAMADA_ESCONDIDA = 1;
+	public static int NUMERO_NEURONIOS_CAMADA_ESCONDIDA = 4;
 
 	// Fim das constantes da MLP
 

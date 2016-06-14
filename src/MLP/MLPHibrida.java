@@ -1,6 +1,5 @@
 package MLP;
 
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -20,6 +19,8 @@ public class MLPHibrida {
 	private int numeroNeuroniosEntrada;
 	private int numeroNeuroniosEscondida;
 	private int numeroNeuroniosSaida;
+
+	private int qtdePesos;
 
 	// Camadas da rede
 	private double[] camadaEntrada;
@@ -50,13 +51,17 @@ public class MLPHibrida {
 		this.numeroNeuroniosEscondida = numeroNeuroniosEscondida;
 		this.numeroNeuroniosSaida = numeroNeuroniosSaida;
 
+		this.qtdePesos = (this.numeroNeuroniosEntrada * this.numeroNeuroniosEscondida)
+				+ (this.numeroNeuroniosEscondida * this.numeroNeuroniosSaida)
+				+ this.numeroNeuroniosEscondida + this.numeroNeuroniosSaida;
+
 		// Inicializa as camadas da rede MLP
 		camadaEntrada = new double[numeroNeuroniosEntrada + 1];
 		camadaEscondida = new double[numeroNeuroniosEscondida + 1];
-		camadaSaida = new double[numeroNeuroniosSaida + 1];
+		camadaSaida = new double[numeroNeuroniosSaida];
 
 		pesosCamadaEntradaEscondida = new double[numeroNeuroniosEscondida + 1][numeroNeuroniosEntrada + 1];
-		pesosCamadaEscondidaSaida = new double[numeroNeuroniosSaida + 1][numeroNeuroniosEscondida + 1];
+		pesosCamadaEscondidaSaida = new double[numeroNeuroniosSaida][numeroNeuroniosEscondida + 1];
 
 		geraRandomicamentePesos();
 	}
@@ -103,8 +108,6 @@ public class MLPHibrida {
 	public double[] treinamento(double[] padrao, double[] saidaDesejada,
 			String tipoTreinamento) {
 
-		
-
 		if (tipoTreinamento.equals(TREINAMENTO_BACK_PROPAGATION)) {
 
 			double[] saidaRede = apresentaPadrao(padrao);
@@ -113,7 +116,7 @@ public class MLPHibrida {
 		} else if (tipoTreinamento.equals(TREINAMENTO_FISH_SCHOOL_SEARCH)) {
 
 			double[] pesosFSS = fssTreinamento(saidaDesejada);
-            this.setPesos(pesosFSS);
+			this.setPesos(pesosFSS);
 
 		} else if (tipoTreinamento
 				.equals(TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION)) {
@@ -128,45 +131,45 @@ public class MLPHibrida {
 
 	private double[] fssTreinamento(double[] saidaDesejada) {
 
-        FSS fss = new FSS();
+		FSS fss = new FSS();
 
 		return fss.centralExecution();
 
 	}
 
 	private double[] psoTreinamento(double[] saidaDesejada) {
-		
+
 		PSO pso = new PSO();
 
 		// Inicializa 15 particulas no enxame do PSO.
 		pso.inicializaEnxame(15);
-		
+
 		int numIteracoes = Util.NUMERO_ITERACOES_PSO;
-		
+
 		while (numIteracoes > 0 || pso.bestGlobalError > Util.ERRO_PARADA_PSO) {
 
-			//System.out.println("NUMERO_ITERACOES_PSO: " + numIteracoes);
-			
+			// System.out.println("NUMERO_ITERACOES_PSO: " + numIteracoes);
+
 			for (Particula particula : pso.enxame) {
 
 				Dataset dataset = new Dataset();
-				
+
 				ArrayList<String[]> dtTreino = dataset.getDatasetTreino();
-				
+
 				double erro = 0;
 
-				for (Iterator iterator = dtTreino.iterator(); iterator.hasNext();) {
+				for (Iterator iterator = dtTreino.iterator(); iterator
+						.hasNext();) {
 
 					double[] novaVelocidade = pso.atualizaVelocidade(particula);
-					
-					particula.velocidade = novaVelocidade;
-					
+
+					particula.setVelocidade(novaVelocidade);
+
 					double[] novaPosicao = pso.atualizaPosicao(particula,
 							novaVelocidade);
-					
-					particula.posicao = novaPosicao;
-					
-					
+
+					particula.setPosicao(novaPosicao);
+
 					String[] linha = (String[]) iterator.next();
 
 					// Converte a linha do dataset para treinar a rede MLP
@@ -183,28 +186,32 @@ public class MLPHibrida {
 					saidaEsperada[2] = Double.parseDouble(linha[6]);
 
 					erro = pso.meanSquaredError(padrao, saidaEsperada,
-							particula.posicao, dataset
-									.getDatasetTreino().size());
-					
-					if(erro < pso.bestGlobalError){
+							particula.posicao, dataset.getDatasetTreino()
+									.size());
+
+					if (erro < pso.bestGlobalError) {
 						pso.setBestGlobalError(erro);
 						pso.setBestGlobalPosition(novaPosicao);
 					}
-					
+
+					if (erro < particula.getMelhorErroParticula()) {
+						particula.setMelhorPosicao(novaPosicao);
+					}
+
 					particula.setErro(erro);
-					
+
 				}
 			}
 
 			numIteracoes = numIteracoes - 1;
 		}
-		System.out.println("PSO BEST GLOBAL ERROR: "+ pso.getBestGlobalError());
+		System.out
+				.println("PSO BEST GLOBAL ERROR: " + pso.getBestGlobalError());
 		System.out.print("PSO BEST GLOBAL POSITION: ");
-		for(int i = 0; i < pso.getBestGlobalPosition().length; i++){
-			System.out.print(pso.getBestGlobalPosition()[i]+" ");
+		for (int i = 0; i < pso.getBestGlobalPosition().length; i++) {
+			System.out.print(pso.getBestGlobalPosition()[i] + " ");
 		}
-		
-		
+
 		return pso.getBestGlobalPosition();
 	}
 
@@ -265,12 +272,12 @@ public class MLPHibrida {
 	 */
 	private void backPropagation(double[] saidaDesejada) {
 
-		double[] erroL2 = new double[numeroNeuroniosSaida + 1];
+		double[] erroL2 = new double[numeroNeuroniosSaida ];
 		double[] erroL1 = new double[numeroNeuroniosEscondida + 1];
 
 		double eSum = 0.0;
 
-		for (int i = 1; i <= numeroNeuroniosSaida; i++)
+		for (int i = 0; i <= numeroNeuroniosSaida; i++)
 
 			// Layer 2 error gradient
 			erroL2[i] = camadaSaida[i] * (1.0 - camadaSaida[i])
@@ -304,30 +311,31 @@ public class MLPHibrida {
 	public void setPesos(double[] pesos) {
 
 		int numeroPesos = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA * Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)
-				+ (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA + Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
+				+ (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA * Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
 
 		if (pesos.length != numeroPesos) {
 			new Exception("Erro no tamanho dos pesos.");
 		}
 
 		int k = 0;
-		//System.out.println("CAMADA ESCONDIDA - ENTRADA");
+		// System.out.println("CAMADA ESCONDIDA - ENTRADA");
 		for (int j = 1; j <= Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA; j++) {
 			for (int i = 0; i <= Util.NUMERO_NEURONIOS_CAMADA_ENTRADA; i++) {
-				//System.out.println("i:" + i + " j: " + j + " K:" + k
-				//		+ " peso: " + pesos[k]);
-				//System.out.println("------------------------------------------------------------");
+				// System.out.println("i:" + i + " j: " + j + " K:" + k
+				// + " peso: " + pesos[k]);
+				// System.out.println("------------------------------------------------------------");
 				pesosCamadaEntradaEscondida[j][i] = pesos[k++];
 			}
 		}
 
-		//System.out.println("####################################################################");
-		//System.out.println("CAMADA SAIDA - ESCONDIDA");
+		// System.out.println("####################################################################");
+		// System.out.println("CAMADA SAIDA - ESCONDIDA");
 		for (int j = 1; j <= Util.NUMERO_NEURONIOS_CAMADA_SAIDA; j++) {
 			for (int i = 0; i <= Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA; i++) {
-				//System.out.println("i:" + i + " j: " + j + " K:" + k + " peso:"
-				//		+ pesos[k]);
-				//System.out.println("------------------------------------------------------------");
+				// System.out.println("i:" + i + " j: " + j + " K:" + k +
+				// " peso:"
+				// + pesos[k]);
+				// System.out.println("------------------------------------------------------------");
 				pesosCamadaEscondidaSaida[j][i] = pesos[k++];
 			}
 		}

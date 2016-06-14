@@ -14,6 +14,8 @@ public class Particula {
 
 	// Melhor posicao encontrada pela particula
 	public double[] melhorPosicao;
+	
+	public double melhorErroParticula = Double.MAX_VALUE;
 
 	public int quantidadePesos;
 
@@ -43,4 +45,38 @@ public class Particula {
 		this.erro = erro;
 	}
 
+	public double[] getPosicao() {
+		return posicao;
+	}
+
+	public void setPosicao(double[] posicao) {
+		this.posicao = posicao;
+	}
+
+	public double[] getVelocidade() {
+		return velocidade;
+	}
+
+	public void setVelocidade(double[] velocidade) {
+		this.velocidade = velocidade;
+	}
+
+	public double[] getMelhorPosicao() {
+		return melhorPosicao;
+	}
+
+	public void setMelhorPosicao(double[] melhorPosicao) {
+		this.melhorPosicao = melhorPosicao;
+	}
+
+	public double getMelhorErroParticula() {
+		return melhorErroParticula;
+	}
+
+	public void setMelhorErroParticula(double melhorErroParticula) {
+		this.melhorErroParticula = melhorErroParticula;
+	}
+
+	
+	
 }

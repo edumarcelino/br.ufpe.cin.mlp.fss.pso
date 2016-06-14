@@ -1,17 +1,9 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.Vector;
-
-import dataset.Dataset;
-
-import MLP.MLPHibrida;
 
 import util.Util;
+import MLP.MLPHibrida;
+import dataset.Dataset;
 
 public class Main {
 
@@ -62,9 +54,10 @@ public class Main {
 				saidaEsperada[1] = Double.parseDouble(linha[5]);
 				saidaEsperada[2] = Double.parseDouble(linha[6]);
 
+				
 				// Treinamento para a rede neural
-				mlp.treinamento(padrao, saidaEsperada,
-						mlp.TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION);
+//				mlp.treinamento(padrao, saidaEsperada,
+//						mlp.TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION);
 
 			}
 		}
