@@ -56,8 +56,8 @@ public class Main {
 
 				
 				// Treinamento para a rede neural
-//				mlp.treinamento(padrao, saidaEsperada,
-//						mlp.TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION);
+				mlp.treinamento(padrao, saidaEsperada,
+						mlp.TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION);
 
 			}
 		}

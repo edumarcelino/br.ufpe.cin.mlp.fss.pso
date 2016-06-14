@@ -42,20 +42,24 @@ public class MLPHibrida {
 	 * @param numeroNeuroniosEscondida
 	 *            numero de neuronios da camada escondida
 	 * @param numeroNeuroniosSaida
-	 *            numero de neuronios da camada de saída
+	 *            numero de neuronios da camada de saida
 	 */
 	public MLPHibrida(int numeroNeuroniosEntrada, int numeroNeuroniosEscondida,
 			int numeroNeuroniosSaida) {
 
-		this.numeroNeuroniosEntrada = numeroNeuroniosEntrada;
-		this.numeroNeuroniosEscondida = numeroNeuroniosEscondida;
-		this.numeroNeuroniosSaida = numeroNeuroniosSaida;
+		setNumeroNeuroniosEntrada(numeroNeuroniosEntrada);
+		setNumeroNeuroniosEscondida(numeroNeuroniosEscondida);
+		setNumeroNeuroniosSaida(numeroNeuroniosSaida);
 
-		this.qtdePesos = (this.numeroNeuroniosEntrada * this.numeroNeuroniosEscondida)
-				+ (this.numeroNeuroniosEscondida * this.numeroNeuroniosSaida)
-				+ this.numeroNeuroniosEscondida + this.numeroNeuroniosSaida;
+		int pesosTemp1 = (((numeroNeuroniosEntrada + 1)) * (numeroNeuroniosEscondida + 1));
+		int pesosTemp2 = ((numeroNeuroniosEscondida + 1) * numeroNeuroniosSaida);
+		qtdePesos = pesosTemp1 + pesosTemp2;
+
+		setQtdePesos(qtdePesos);
 
 		// Inicializa as camadas da rede MLP
+		// CamadaEntrada[0] -> bias
+		// CamadaEscondida[0] -> bias
 		camadaEntrada = new double[numeroNeuroniosEntrada + 1];
 		camadaEscondida = new double[numeroNeuroniosEscondida + 1];
 		camadaSaida = new double[numeroNeuroniosSaida];
@@ -64,6 +68,11 @@ public class MLPHibrida {
 		pesosCamadaEscondidaSaida = new double[numeroNeuroniosSaida][numeroNeuroniosEscondida + 1];
 
 		geraRandomicamentePesos();
+	}
+
+	public static void visualizaPesosRede() {
+
+		// System.out.println("NEURONIO " + "[" + i + "]" + "[" + j + "]");
 	}
 
 	/**
@@ -88,11 +97,12 @@ public class MLPHibrida {
 			}
 		}
 
-		for (int j = 1; j <= numeroNeuroniosSaida; j++) {
+		for (int j = 1; j < numeroNeuroniosSaida; j++) {
 			for (int i = 0; i <= numeroNeuroniosEscondida; i++) {
 				pesosCamadaEscondidaSaida[j][i] = Math.random() - 0.5;
 			}
 		}
+
 	}
 
 	/**
@@ -225,7 +235,7 @@ public class MLPHibrida {
 	 */
 	public double[] apresentaPadrao(double[] padrao) {
 
-		// A camada de entrada recebe o padrão para propagar na rede
+		// A camada de entrada recebe o padrao para propagar na rede
 		for (int i = 0; i < numeroNeuroniosEntrada; i++) {
 			camadaEntrada[i + 1] = padrao[i];
 		}
@@ -272,7 +282,7 @@ public class MLPHibrida {
 	 */
 	private void backPropagation(double[] saidaDesejada) {
 
-		double[] erroL2 = new double[numeroNeuroniosSaida ];
+		double[] erroL2 = new double[numeroNeuroniosSaida];
 		double[] erroL1 = new double[numeroNeuroniosEscondida + 1];
 
 		double eSum = 0.0;
@@ -382,6 +392,14 @@ public class MLPHibrida {
 	public void setPesosCamadaEscondidaSaida(
 			double[][] pesosCamadaEscondidaSaida) {
 		this.pesosCamadaEscondidaSaida = pesosCamadaEscondidaSaida;
+	}
+
+	public int getQtdePesos() {
+		return qtdePesos;
+	}
+
+	public void setQtdePesos(int qtdePesos) {
+		this.qtdePesos = qtdePesos;
 	}
 
 }
