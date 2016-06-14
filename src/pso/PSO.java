@@ -115,9 +115,6 @@ public class PSO {
 
 		mlpTemp.setPesos(weights);
 
-		double[] xValues = new double[Util.NUMERO_NEURONIOS_CAMADA_ENTRADA]; // inputs
-		double[] tValues = new double[Util.NUMERO_NEURONIOS_CAMADA_SAIDA]; // targets
-
 		double sumSquaredError = 0.0;
 
 		double[] saidaRede = mlpTemp.apresentaPadrao(padrao);

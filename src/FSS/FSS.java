@@ -259,8 +259,8 @@ public class FSS {
 
     public void initializeSchool(Fish[] school){
 
-        for(Fish fish : school){
-            fish = new Fish();
+        for(int i=0; i< school.length; i++){
+            Fish fish = new Fish();
 
             fish.current = new FSS_Solution(quantidadePesos);
             fish.best = new FSS_Solution(quantidadePesos);
@@ -274,6 +274,7 @@ public class FSS {
             fish.delta_x = new double[quantidadePesos];
             fish.current_weight = Util.W_SCALE/2;
             fish.past_weight = fish.current_weight;
+            school[i] = fish;
         }
 
     }

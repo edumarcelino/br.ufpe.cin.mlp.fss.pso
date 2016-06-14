@@ -40,7 +40,7 @@ public class Util {
 
 	public static int FISH_QUANTITY = 30; // Mesmo numero usado no artigo
 
-	public static double NUMBER_OF_ITERATIONS = 10000; // Tambem retirado do artigo original
+	public static double NUMBER_OF_ITERATIONS = 100; // Tambem retirado do artigo original
 
 	//Fim das constantes do Fish
 

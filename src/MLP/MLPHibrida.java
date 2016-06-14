@@ -1,13 +1,14 @@
 package MLP;
 
-import FSS.FSS;
-import dataset.Dataset;
-import pso.PSO;
-import pso.Particula;
-import util.Util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import pso.PSO;
+import pso.Particula;
+import util.Util;
+import FSS.FSS;
+import dataset.Dataset;
 
 public class MLPHibrida {
 
