@@ -1,8 +1,12 @@
 package FSS;
 
+import MLP.MLPHibrida;
+import dataset.Dataset;
 import util.Util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -12,7 +16,7 @@ public class FSS {
 
     public static final int quantidadePesos = 12;
 
-    public void centralExecution(){
+    public double[] centralExecution(){
 
         double iterations = 0;
         Fish[] school = new Fish[Util.FISH_QUANTITY];
@@ -41,6 +45,8 @@ public class FSS {
             iterations = iterations + 1;
         }
 
+        Arrays.sort(school,new FSS_ComparatorByBestFitness());
+        return school[0].current.variables;
     }
 
     private static int colletive_volitive_operator(Fish[] school,double step_size,double[] school_instinctive){
@@ -232,7 +238,7 @@ public class FSS {
                 //TODO take care about bounds of search space
             }
 
-//            fish.neighbor.fitness = MeanSquaredError(fish.neighbor.variables); TODO funcao de fitness
+            fish.neighbor.fitness = meanSquaredError(fish.neighbor.variables);
 
             //calculate fitness difference
             fish.delta_f = fish.neighbor.fitness-fish.current.fitness;
@@ -260,19 +266,56 @@ public class FSS {
             fish.best = new FSS_Solution(quantidadePesos);
             fish.neighbor = new FSS_Solution(quantidadePesos);
 
-//            fish.current.fitness = MeanSquaredError(fish.current.variables); TODO fazer a funcao mse que recebe um array de pesos e retorna um fitness da solucao
+            fish.current.fitness = meanSquaredError(fish.current.variables);
 
             FSS_Solution.copy(fish.current, fish.best);
             FSS_Solution.copy(fish.current, fish.neighbor);
 
             fish.delta_x = new double[quantidadePesos];
-
-//            fish.current_weight = ThreadLocalRandom.current().nextDouble(1,Util.W_SCALE + 1); TODO nao tenho certeza de como inicializar os pesos dos peixes...
             fish.current_weight = Util.W_SCALE/2;
             fish.past_weight = fish.current_weight;
         }
 
     }
 
+    public double meanSquaredError(double[] pesos){
 
+        MLPHibrida mlpHibrida = new MLPHibrida(
+                Util.NUMERO_NEURONIOS_CAMADA_ENTRADA,
+                Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA,
+                Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
+        Dataset dataset = new Dataset();
+        int tamanhoBaseTreinamento = dataset.getDatasetTeste().size();
+        double sumSquaredError = 0.0;
+        mlpHibrida.setPesos(pesos);
+
+        ArrayList<String[]> dtTreino = dataset.getDatasetTreino();
+        for (Iterator iterator = dtTreino.iterator(); iterator.hasNext();) {
+
+            String[] linha = (String[]) iterator.next();
+
+            // Converte a linha do dataset para treinar a rede MLP
+            double[] padrao = new double[4];
+            padrao[0] = Double.parseDouble(linha[0]);
+            padrao[1] = Double.parseDouble(linha[1]);
+            padrao[2] = Double.parseDouble(linha[2]);
+            padrao[3] = Double.parseDouble(linha[3]);
+
+            // Converte a saida esperada para o treinamento
+            double[] saidaEsperada = new double[3];
+            saidaEsperada[0] = Double.parseDouble(linha[4]);
+            saidaEsperada[1] = Double.parseDouble(linha[5]);
+            saidaEsperada[2] = Double.parseDouble(linha[6]);
+
+            double [] saidaRede = mlpHibrida.apresentaPadrao(padrao);
+
+            for (int i = 0; i < tamanhoBaseTreinamento; ++i) {
+
+                for (int j = 0; j < saidaEsperada.length; ++j) {
+                    sumSquaredError += ((saidaRede[j + 1] - saidaEsperada[j]) * (saidaRede[j + 1] - saidaEsperada[j]));
+                }
+            }
+        }
+        return sumSquaredError / tamanhoBaseTreinamento;
+    }
 }

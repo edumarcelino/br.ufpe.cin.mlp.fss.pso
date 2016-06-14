@@ -1,16 +1,13 @@
 package MLP;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Random;
-
+import FSS.FSS;
 import dataset.Dataset;
-
 import pso.PSO;
 import pso.Particula;
 import util.Util;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MLPHibrida {
 
@@ -114,7 +111,8 @@ public class MLPHibrida {
 
 		} else if (tipoTreinamento.equals(TREINAMENTO_FISH_SCHOOL_SEARCH)) {
 
-			fssTreinamento(saidaDesejada);
+			double[] pesosFSS = fssTreinamento(saidaDesejada);
+            this.setPesos(pesosFSS);
 
 		} else if (tipoTreinamento
 				.equals(TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION)) {
@@ -127,7 +125,11 @@ public class MLPHibrida {
 		return camadaSaida;
 	}
 
-	private void fssTreinamento(double[] saidaDesejada) {
+	private double[] fssTreinamento(double[] saidaDesejada) {
+
+        FSS fss = new FSS();
+
+		return fss.centralExecution();
 
 	}
 
