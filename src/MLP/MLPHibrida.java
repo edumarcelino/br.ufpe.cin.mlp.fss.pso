@@ -184,7 +184,7 @@ public class MLPHibrida {
 
 					erro = pso.meanSquaredError(padrao, saidaEsperada,
 							particula.posicao, dataset
-									.getDatasetTeste().size());
+									.getDatasetTreino().size());
 					
 					if(erro < pso.bestGlobalError){
 						pso.setBestGlobalError(erro);
