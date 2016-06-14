@@ -14,7 +14,10 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class FSS {
 
-    public static final int quantidadePesos = 12;
+    public static final int quantidadePesos = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA * Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)
+            + (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA * Util.NUMERO_NEURONIOS_CAMADA_SAIDA)
+            + Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA
+            + Util.NUMERO_NEURONIOS_CAMADA_SAIDA;
 
     public double[] centralExecution(){
 
@@ -286,11 +289,11 @@ public class FSS {
                 Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA,
                 Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
         Dataset dataset = new Dataset();
-        int tamanhoBaseTreinamento = dataset.getDatasetTeste().size();
+        ArrayList<String[]> dtTreino = dataset.getDatasetTreino();
+        int tamanhoBaseTreinamento = dtTreino.size();
         double sumSquaredError = 0.0;
         mlpHibrida.setPesos(pesos);
 
-        ArrayList<String[]> dtTreino = dataset.getDatasetTreino();
         for (Iterator iterator = dtTreino.iterator(); iterator.hasNext();) {
 
             String[] linha = (String[]) iterator.next();
