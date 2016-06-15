@@ -33,7 +33,7 @@ public class Main {
 		System.out.println("DATASET TREINO: " + dtTreino.size());
 		System.out.println("DATASET TESTE: " + dtTeste.size());
 
-		for (int i = 0; i < 200; i++) {
+		for (int i = 0; i < iteracoes; i++) {
 			for (Iterator iterator = dtTreino.iterator(); iterator.hasNext();) {
 
 				String[] linha = (String[]) iterator.next();
