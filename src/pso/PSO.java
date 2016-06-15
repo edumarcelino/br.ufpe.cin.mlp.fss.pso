@@ -125,7 +125,7 @@ public class PSO {
 		for (int i = 0; i < tamanhoBaseTreinamento; ++i) {
 
 			for (int j = 0; j < saidaEsperada.length; ++j) {
-				sumSquaredError += ((saidaRede[j + 1] - saidaEsperada[j]) * (saidaRede[j + 1] - saidaEsperada[j]));
+				sumSquaredError += ((saidaRede[j] - saidaEsperada[j]) * (saidaRede[j] - saidaEsperada[j]));
 			}
 		}
 		return sumSquaredError / tamanhoBaseTreinamento;

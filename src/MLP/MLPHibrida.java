@@ -288,14 +288,14 @@ public class MLPHibrida {
 		double eSum = 0.0;
 
 		for (int i = 0; i < numeroNeuroniosSaida; i++) {
-			
+
 			erroL2[i] = camadaSaida[i] * (1.0 - camadaSaida[i])
 					* (saidaDesejada[i] - camadaSaida[i]);
 		}
 
 		for (int i = 0; i <= numeroNeuroniosEscondida; i++) {
 			// Layer 1 error gradient
-			
+
 			for (int j = 0; j < numeroNeuroniosSaida; j++) {
 				eSum += pesosCamadaEscondidaSaida[j][i] * erroL2[j];
 			}
@@ -320,33 +320,16 @@ public class MLPHibrida {
 	}
 
 	public void setPesos(double[] pesos) {
-
-		int numeroPesos = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA * Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)
-				+ (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA * Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
-
-		if (pesos.length != numeroPesos) {
-			new Exception("Erro no tamanho dos pesos.");
-		}
-
 		int k = 0;
-		// System.out.println("CAMADA ESCONDIDA - ENTRADA");
-		for (int j = 1; j <= Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA; j++) {
-			for (int i = 0; i <= Util.NUMERO_NEURONIOS_CAMADA_ENTRADA; i++) {
-				// System.out.println("i:" + i + " j: " + j + " K:" + k
-				// + " peso: " + pesos[k]);
-				// System.out.println("------------------------------------------------------------");
+		for (int j = 1; j <= numeroNeuroniosEscondida; j++) {
+			for (int i = 0; i <= numeroNeuroniosEntrada; i++) {
 				pesosCamadaEntradaEscondida[j][i] = pesos[k++];
+				;
 			}
 		}
 
-		// System.out.println("####################################################################");
-		// System.out.println("CAMADA SAIDA - ESCONDIDA");
-		for (int j = 1; j <= Util.NUMERO_NEURONIOS_CAMADA_SAIDA; j++) {
-			for (int i = 0; i <= Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA; i++) {
-				// System.out.println("i:" + i + " j: " + j + " K:" + k +
-				// " peso:"
-				// + pesos[k]);
-				// System.out.println("------------------------------------------------------------");
+		for (int j = 1; j < numeroNeuroniosSaida; j++) {
+			for (int i = 0; i <= numeroNeuroniosEscondida; i++) {
 				pesosCamadaEscondidaSaida[j][i] = pesos[k++];
 			}
 		}
