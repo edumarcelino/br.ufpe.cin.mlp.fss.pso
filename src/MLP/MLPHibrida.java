@@ -257,7 +257,7 @@ public class MLPHibrida {
 
 		// Itera em todos os neuronios da camada de saida para repassar pela
 		// camada de saida
-		for (int j = 1; j <= numeroNeuroniosSaida; j++) {
+		for (int j = 0; j < numeroNeuroniosSaida; j++) {
 			camadaSaida[j] = 0.0;
 			for (int i = 0; i <= numeroNeuroniosEscondida; i++) {
 
@@ -287,11 +287,11 @@ public class MLPHibrida {
 
 		double eSum = 0.0;
 
-		for (int i = 0; i <= numeroNeuroniosSaida; i++)
-
-			// Layer 2 error gradient
+		for (int i = 0; i <= numeroNeuroniosSaida; i++) {
+			
 			erroL2[i] = camadaSaida[i] * (1.0 - camadaSaida[i])
 					* (saidaDesejada[i - 1] - camadaSaida[i]);
+		}
 
 		for (int i = 0; i <= numeroNeuroniosEscondida; i++) {
 			// Layer 1 error gradient
