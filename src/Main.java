@@ -63,8 +63,6 @@ public class Main {
 
 		for (String[] dt : dtTeste) {
 
-			// TODO: Tentar transformar de forma generica
-
 			// Converte a linha do dataset para treinar a rede MLP
 			double[] padrao = new double[4];
 			padrao[0] = Double.parseDouble(dt[0]);
