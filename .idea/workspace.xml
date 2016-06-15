@@ -48,7 +48,7 @@
       <file leaf-file-name="FSS.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/FSS/FSS.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="50">
+            <state relative-caret-position="63">
               <caret line="294" column="35" selection-start-line="294" selection-start-column="35" selection-end-line="294" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -797,12 +797,12 @@
       <option name="presentableId" value="Default" />
       <updated>1465766353636</updated>
       <workItem from="1465766360501" duration="6620000" />
-      <workItem from="1465912325929" duration="201000" />
+      <workItem from="1465912325929" duration="330000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6821000" />
+    <option name="totallyTimeSpent" value="6950000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="873" extended-state="6" />
@@ -959,7 +959,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/FSS/FSS.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
+        <state relative-caret-position="63">
           <caret line="294" column="35" selection-start-line="294" selection-start-column="35" selection-end-line="294" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
