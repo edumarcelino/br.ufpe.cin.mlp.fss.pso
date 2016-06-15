@@ -23,11 +23,10 @@ public class Particula {
 
 	public Particula(double[] posicao, double[] velocidade) {
 
-		this.quantidadePesos = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA * Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)
-				+ (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA * Util.NUMERO_NEURONIOS_CAMADA_SAIDA)
-				+ Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA
-				+ Util.NUMERO_NEURONIOS_CAMADA_SAIDA;
-
+		int pesosTemp1 = (((Util.NUMERO_NEURONIOS_CAMADA_ENTRADA + 1)) * (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA + 1));
+		int pesosTemp2 = ((Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA + 1) * Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
+		this.quantidadePesos = pesosTemp1 + pesosTemp2;
+		
 		this.posicao = posicao;
 
 		this.velocidade = velocidade;

@@ -16,7 +16,6 @@ public class Main {
 
 		System.out
 				.println("-----------------REDE NEURAL - MLP-----------------");
-		System.out.println("TAXA DE APRENDIZAGEM = " + taxaAprendizagem);
 		System.out.println("QUANTIDADE DE ITERACOES = " + iteracoes + "\n");
 
 		MLPHibrida mlp = new MLPHibrida(Util.NUMERO_NEURONIOS_CAMADA_ENTRADA,
@@ -57,7 +56,7 @@ public class Main {
 				
 				// Treinamento para a rede neural
 				mlp.treinamento(padrao, saidaEsperada,
-						mlp.TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION);
+						mlp.TREINAMENTO_BACK_PROPAGATION);
 
 			}
 		}

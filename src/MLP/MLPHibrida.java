@@ -131,8 +131,11 @@ public class MLPHibrida {
 		} else if (tipoTreinamento
 				.equals(TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION)) {
 
-			double[] pesosPSO = psoTreinamento(saidaDesejada);
+			int tamanhoDataset = new Dataset().getDatasetTreino().size();
+			double[] saidaRede = apresentaPadrao(padrao);
+			double[] pesosPSO = psoTreinamento(saidaDesejada, padrao, tamanhoDataset);
 			this.setPesos(pesosPSO);
+			
 
 		}
 
@@ -147,80 +150,67 @@ public class MLPHibrida {
 
 	}
 
-	private double[] psoTreinamento(double[] saidaDesejada) {
+	private double[] psoTreinamento(double[] saidaDesejada, double[] padrao, int tamanhoDataset) {
 
 		PSO pso = new PSO();
 
 		// Inicializa 15 particulas no enxame do PSO.
-		pso.inicializaEnxame(15);
+		pso.inicializaEnxame(2);
 
-		int numIteracoes = Util.NUMERO_ITERACOES_PSO;
+		int numIteracoes = 10;
 
-		while (numIteracoes > 0 || pso.bestGlobalError > Util.ERRO_PARADA_PSO) {
+		for (int i = 0; i < numIteracoes; i++) {
+
+			if (pso.bestGlobalError < Util.ERRO_PARADA_PSO) {
+				return pso.getBestGlobalPosition();
+			}
 
 			// System.out.println("NUMERO_ITERACOES_PSO: " + numIteracoes);
 
 			for (Particula particula : pso.enxame) {
 
-				Dataset dataset = new Dataset();
-
-				ArrayList<String[]> dtTreino = dataset.getDatasetTreino();
-
 				double erro = 0;
 
-				for (Iterator iterator = dtTreino.iterator(); iterator
-						.hasNext();) {
+				double[] novaVelocidade = pso.atualizaVelocidade(particula);
 
-					double[] novaVelocidade = pso.atualizaVelocidade(particula);
+				particula.setVelocidade(novaVelocidade);
 
-					particula.setVelocidade(novaVelocidade);
+				double[] novaPosicao = pso.atualizaPosicao(particula,
+						novaVelocidade);
 
-					double[] novaPosicao = pso.atualizaPosicao(particula,
-							novaVelocidade);
+				particula.setPosicao(novaPosicao);
 
-					particula.setPosicao(novaPosicao);
+				erro = pso.meanSquaredError(padrao, saidaDesejada,
+						particula.posicao, tamanhoDataset);
 
-					String[] linha = (String[]) iterator.next();
+				if (erro < pso.bestGlobalError) {
+					System.out.println("ERRO ANTES (bestGlobalError): "
+							+ pso.bestGlobalError);
+					System.out.println("ERRO DEPOIS (erro): " + erro);
 
-					// Converte a linha do dataset para treinar a rede MLP
-					double[] padrao = new double[4];
-					padrao[0] = Double.parseDouble(linha[0]);
-					padrao[1] = Double.parseDouble(linha[1]);
-					padrao[2] = Double.parseDouble(linha[2]);
-					padrao[3] = Double.parseDouble(linha[3]);
-
-					// Converte a saida esperada para o treinamento
-					double[] saidaEsperada = new double[3];
-					saidaEsperada[0] = Double.parseDouble(linha[4]);
-					saidaEsperada[1] = Double.parseDouble(linha[5]);
-					saidaEsperada[2] = Double.parseDouble(linha[6]);
-
-					erro = pso.meanSquaredError(padrao, saidaEsperada,
-							particula.posicao, dataset.getDatasetTreino()
-									.size());
-
-					if (erro < pso.bestGlobalError) {
-						pso.setBestGlobalError(erro);
-						pso.setBestGlobalPosition(novaPosicao);
-					}
-
-					if (erro < particula.getMelhorErroParticula()) {
-						particula.setMelhorPosicao(novaPosicao);
-					}
-
-					particula.setErro(erro);
-
+					pso.setBestGlobalError(erro);
+					pso.setBestGlobalPosition(novaPosicao);
 				}
+
+				if (erro < particula.getMelhorErroParticula()) {
+					particula.setMelhorPosicao(novaPosicao);
+				}
+
+				particula.setErro(erro);
+
+				System.out.println("MUDOU DE PARTICULA");
 			}
 
-			numIteracoes = numIteracoes - 1;
 		}
+
 		System.out
 				.println("PSO BEST GLOBAL ERROR: " + pso.getBestGlobalError());
 		System.out.print("PSO BEST GLOBAL POSITION: ");
 		for (int i = 0; i < pso.getBestGlobalPosition().length; i++) {
 			System.out.print(pso.getBestGlobalPosition()[i] + " ");
 		}
+		System.out
+				.println("---------------------------------------------------");
 
 		return pso.getBestGlobalPosition();
 	}

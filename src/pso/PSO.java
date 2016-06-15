@@ -16,17 +16,17 @@ public class PSO {
 	public double w = 0.729;
 
 	// Particula confia em si
-	public double c1 = 0.4;
+	public double c1 = 1.49445;
 
 	// Particula confia no bando
-	public double c2 = 1.4;
+	public double c2 = 1.49445;
 
 	public double r1, r2;
 
-	public int numeroPesos = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA * Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)
-			+ (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA * Util.NUMERO_NEURONIOS_CAMADA_SAIDA)
-			+ Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA
-			+ Util.NUMERO_NEURONIOS_CAMADA_SAIDA;
+	int pesosTemp1 = (((Util.NUMERO_NEURONIOS_CAMADA_ENTRADA + 1)) * (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA + 1));
+	int pesosTemp2 = ((Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA + 1) * Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
+	
+	public int numeroPesos = pesosTemp1 + pesosTemp2;
 
 	public double bestGlobalError = Double.MAX_VALUE;
 
@@ -42,10 +42,9 @@ public class PSO {
 
 		enxame = new Particula[quantidadeParticulas];
 
-		numeroPesos = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA * Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)
-				+ (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA * Util.NUMERO_NEURONIOS_CAMADA_SAIDA)
-				+ Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA
-				+ Util.NUMERO_NEURONIOS_CAMADA_SAIDA;
+		int pesosTemp1 = (((Util.NUMERO_NEURONIOS_CAMADA_ENTRADA + 1)) * (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA + 1));
+		int pesosTemp2 = ((Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA + 1) * Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
+		numeroPesos = pesosTemp1 + pesosTemp2;
 
 		double[] randomPosition = new double[numeroPesos];
 
