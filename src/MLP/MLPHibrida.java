@@ -287,15 +287,16 @@ public class MLPHibrida {
 
 		double eSum = 0.0;
 
-		for (int i = 0; i <= numeroNeuroniosSaida; i++) {
+		for (int i = 0; i < numeroNeuroniosSaida; i++) {
 			
 			erroL2[i] = camadaSaida[i] * (1.0 - camadaSaida[i])
-					* (saidaDesejada[i - 1] - camadaSaida[i]);
+					* (saidaDesejada[i] - camadaSaida[i]);
 		}
 
 		for (int i = 0; i <= numeroNeuroniosEscondida; i++) {
 			// Layer 1 error gradient
-			for (int j = 1; j <= numeroNeuroniosSaida; j++) {
+			
+			for (int j = 0; j < numeroNeuroniosSaida; j++) {
 				eSum += pesosCamadaEscondidaSaida[j][i] * erroL2[j];
 			}
 
@@ -303,7 +304,7 @@ public class MLPHibrida {
 			eSum = 0.0;
 		}
 
-		for (int j = 1; j <= numeroNeuroniosSaida; j++) {
+		for (int j = 0; j < numeroNeuroniosSaida; j++) {
 			for (int i = 0; i <= numeroNeuroniosEscondida; i++) {
 				pesosCamadaEscondidaSaida[j][i] += TAXA_APRENDIZAGEM
 						* erroL2[j] * camadaEscondida[i];

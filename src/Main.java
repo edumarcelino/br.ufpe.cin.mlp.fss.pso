@@ -85,8 +85,8 @@ public class Main {
 			System.out.println("SAIDA ESPERADA: " + saidaEsperada[0] + " - "
 					+ saidaEsperada[1] + " - " + saidaEsperada[2]);
 
-			System.out.println("SAIDA DA MLP: " + saidaRede[1] + " - "
-					+ saidaRede[2] + " - " + saidaRede[3]);
+			System.out.println("SAIDA DA MLP: " + saidaRede[0] + " - "
+					+ saidaRede[1] + " - " + saidaRede[2]);
 		}
 
 	}
