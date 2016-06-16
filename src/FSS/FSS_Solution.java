@@ -26,9 +26,9 @@ public class FSS_Solution {
 			destination.variables[i]=source.variables[i];
 		}
 	}
-	public static void randomize_variables(FSS_Solution sol){
-		for(int i=0;i<sol.variables.length;i++){
-			sol.variables[i]= ThreadLocalRandom.current().nextDouble(0,1.1); // TODO Avaliar esse random de pesos
+	public void randomize_variables(){
+		for(int i=0;i<variables.length;i++){
+			variables[i]= ThreadLocalRandom.current().nextDouble(0,1.1); // TODO Avaliar esse random de pesos
 		}
 	}
 }

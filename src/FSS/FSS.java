@@ -41,9 +41,9 @@ public class FSS {
             colletive_volitive_operator(school,step_volitive,school_instinctive);
 
             Arrays.sort(school,new FSS_ComparatorByBestFitness());
-            for(Fish fish: school) {
-                System.out.println("nei="+fish.neighbor.fitness+" now="+fish.current.fitness+" best="+fish.best.fitness+" weight="+fish.current_weight);
-            }
+//            for(Fish fish: school) {
+//                System.out.println("nei="+fish.neighbor.fitness+" now="+fish.current.fitness+" best="+fish.best.fitness+" weight="+fish.current_weight);
+//            }
 
             iterations = iterations + 1;
         }
@@ -107,7 +107,7 @@ public class FSS {
 //                    if(fish.neighbor.variables[i]>f.getMax()) fish.neighbor.variables[i]=f.getMax();
                 }
                 //evaluate new current solution
-//                fish.neighbor.fitness = MeanSquareError(fish.neighbor.variables);
+                fish.neighbor.fitness = meanSquaredError(fish.neighbor.variables);
 
                 //update current if neighbor is best
                 fish.volitive_move_success = false;
@@ -140,10 +140,8 @@ public class FSS {
 
     private static double[] colletive_instinctive_operator(Fish[] school){
 
-        //
         double[] school_instinctive = calculate_instinctive_direction(school);
 
-        //
         for(Fish fish: school) {
             //use current as template to neighbor
             FSS_Solution.copy(fish.current, fish.neighbor);
@@ -208,13 +206,10 @@ public class FSS {
         //take care about zero division
         if(abs_delta_f_max!=0){
             //calculate normalized gain
-            for(Fish fish: school){
-                fish.fitness_gain_normalized = fish.delta_f/abs_delta_f_max;
-            }
-
             //feed all fishes
             for(Fish fish: school) {
                 //
+                fish.fitness_gain_normalized = fish.delta_f/abs_delta_f_max;
                 fish.past_weight = fish.current_weight;
                 fish.current_weight += fish.fitness_gain_normalized;
                 //take care about min and max weight
@@ -229,7 +224,7 @@ public class FSS {
 
     }
 
-    public void individualOperator(Fish[] school, double step){
+    public static void individualOperator(Fish[] school, double step){
 
         for(Fish fish: school){
             FSS_Solution.copy(fish.current, fish.neighbor);
@@ -266,8 +261,11 @@ public class FSS {
             Fish fish = new Fish();
 
             fish.current = new FSS_Solution(quantidadePesos);
+            fish.current.randomize_variables();
             fish.best = new FSS_Solution(quantidadePesos);
+            fish.best.randomize_variables();
             fish.neighbor = new FSS_Solution(quantidadePesos);
+            fish.neighbor.randomize_variables();
 
             fish.current.fitness = meanSquaredError(fish.current.variables);
 
@@ -282,7 +280,7 @@ public class FSS {
 
     }
 
-    public double meanSquaredError(double[] pesos){
+    public static double meanSquaredError(double[] pesos){
 
         MLPHibrida mlpHibrida = new MLPHibrida(
                 Util.NUMERO_NEURONIOS_CAMADA_ENTRADA,
@@ -316,7 +314,7 @@ public class FSS {
             for (int i = 0; i < tamanhoBaseTreinamento; ++i) {
 
                 for (int j = 0; j < saidaEsperada.length; ++j) {
-                    sumSquaredError += ((saidaRede[j + 1] - saidaEsperada[j]) * (saidaRede[j + 1] - saidaEsperada[j]));
+                    sumSquaredError += ((saidaRede[j] - saidaEsperada[j]) * (saidaRede[j] - saidaEsperada[j]));
                 }
             }
         }

@@ -26,9 +26,9 @@ public class Util {
 
 	//Constantes do Fish
 
-	public static double STEP_IND_INCIAL = 1.0; // Testaram com 10, 1 e 0.1 % do espaco de busca
+	public static double STEP_IND_INCIAL = 10.0; // Testaram com 10, 1 e 0.1 % do espaco de busca
 
-	public static double STEP_COLECTIVE_INCIAL = 1.0; // Testaram com 0.01, 0.001 e 0.0001 % do espaco de busca
+	public static double STEP_COLECTIVE_INCIAL = 10.0; // Testaram com 0.01, 0.001 e 0.0001 % do espaco de busca
 
 	public static double STEP_IND_FINAL = 0.00001;// Testaram com 10, 1 e 0.1 % do espaco de busca
 
@@ -38,9 +38,9 @@ public class Util {
 
 	public static double W_MINIMUM = 1; // Peso minimo dos peixes
 
-	public static int FISH_QUANTITY = 30; // Mesmo numero usado no artigo
+	public static int FISH_QUANTITY = 15; // Mesmo numero usado no artigo
 
-	public static double NUMBER_OF_ITERATIONS = 100; // Tambem retirado do artigo original
+	public static double NUMBER_OF_ITERATIONS = 50; // Tambem retirado do artigo original
 
 	//Fim das constantes do Fish
 

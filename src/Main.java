@@ -56,7 +56,7 @@ public class Main {
 				
 				// Treinamento para a rede neural
 				mlp.treinamento(padrao, saidaEsperada,
-						mlp.TREINAMENTO_BACK_PROPAGATION);
+						mlp.TREINAMENTO_FISH_SCHOOL_SEARCH);
 
 			}
 		}
