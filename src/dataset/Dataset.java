@@ -19,7 +19,7 @@ public class Dataset {
         try {
 
 //            datasetCarregado = Util.leituraCSV("/home/ejmvs/workspace/br.ufpe.cin.mlp.fss.pso.git/src/dataset/iris_mapped.csv", ",");
-            datasetCarregado = Util.leituraCSV("/Users/moura/Mestrado/SistemasInteligentesHibridos/br.ufpe.cin.mlp.fss.pso/src/dataset/iris_mapped.csv", ",");
+            datasetCarregado = Util.leituraCSV("/home/ejmvs/workspace/br.ufpe.cin.mlp.fss.pso.git/src/dataset/iris_mapped.csv", ",");
 
         } catch (IOException e1) {
             System.out.println("Erro no carregamento do arquivo: "
