@@ -23,9 +23,9 @@ public class PSO {
 
 	public double r1, r2;
 
-	int pesosTemp1 = (((Util.NUMERO_NEURONIOS_CAMADA_ENTRADA + 1)) * (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA + 1));
+	int pesosTemp1 = (((Util.NUMERO_NEURONIOS_CAMADA_ENTRADA + 1)) * (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA));
 	int pesosTemp2 = ((Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA + 1) * Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
-	
+
 	public int numeroPesos = pesosTemp1 + pesosTemp2;
 
 	public double bestGlobalError = Double.MAX_VALUE;
@@ -41,10 +41,6 @@ public class PSO {
 	public void inicializaEnxame(int quantidadeParticulas) {
 
 		enxame = new Particula[quantidadeParticulas];
-
-		int pesosTemp1 = (((Util.NUMERO_NEURONIOS_CAMADA_ENTRADA + 1)) * (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA + 1));
-		int pesosTemp2 = ((Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA + 1) * Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
-		numeroPesos = pesosTemp1 + pesosTemp2;
 
 		double[] randomPosition = new double[numeroPesos];
 
@@ -76,11 +72,13 @@ public class PSO {
 	}
 
 	public double[] atualizaVelocidade(Particula particula) {
-		r1 = Math.random();
-		r2 = Math.random();
-		double[] novaVelocidade = new double[particula.velocidade.length];
 
-		for (int j = 0; j < particula.velocidade.length; j++) {
+		double[] novaVelocidade = new double[numeroPesos];
+
+		for (int j = 0; j < numeroPesos; j++) {
+
+			r1 = Math.random();
+			r2 = Math.random();
 
 			novaVelocidade[j] = (w * particula.velocidade[j])
 					+ (c1 * r1 * (particula.melhorPosicao[j] - particula.posicao[j]))
@@ -92,9 +90,10 @@ public class PSO {
 	}
 
 	public double[] atualizaPosicao(Particula particula, double[] novaVelocidade) {
-		double[] novaPosicao = new double[particula.posicao.length];
+		
+		double[] novaPosicao = new double[numeroPesos];
 
-		for (int j = 0; j < particula.posicao.length; j++) {
+		for (int j = 0; j < numeroPesos; j++) {
 
 			novaPosicao[j] = particula.posicao[j] + novaVelocidade[j];
 		}
@@ -102,8 +101,6 @@ public class PSO {
 		return novaPosicao;
 	}
 
-
-	
 	public double meanSquaredError(double[] padrao, double[] saidaEsperada,
 			double[] weights, int tamanhoBaseTreinamento) {
 
@@ -117,9 +114,6 @@ public class PSO {
 		double sumSquaredError = 0.0;
 
 		double[] saidaRede = mlpTemp.apresentaPadrao(padrao);
-
-		//System.out.print(" Saida Rede: " + saidaRede[1] + " - " + saidaRede[2]
-		//		+ " - " + saidaRede[3]);
 
 		for (int i = 0; i < tamanhoBaseTreinamento; ++i) {
 
@@ -146,6 +140,4 @@ public class PSO {
 		this.bestGlobalPosition = bestGlobalPosition;
 	}
 
-	
-	
 }
