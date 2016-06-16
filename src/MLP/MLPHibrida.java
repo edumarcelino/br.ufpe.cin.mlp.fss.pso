@@ -60,6 +60,7 @@ public class MLPHibrida {
 		pesosCamadaEntradaEscondida = new double[numeroNeuroniosEscondida+1][numeroNeuroniosEntrada+1];
 		pesosCamadaEscondidaSaida = new double[numeroNeuroniosSaida][numeroNeuroniosEscondida + 1];
 
+		geraRandomicamentePesos();
 		
 	}
 
@@ -94,7 +95,6 @@ public class MLPHibrida {
 				pesosCamadaEscondidaSaida[j][i] = Math.random() - 0.5;
 			}
 		}
-		System.out.println("teste");
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class MLPHibrida {
 
 		if (tipoTreinamento.equals(TREINAMENTO_BACK_PROPAGATION)) {
 
-			geraRandomicamentePesos();
+			
 			double[] saidaRede = apresentaPadrao(padrao);
 			backPropagation(saidaDesejada);
 
