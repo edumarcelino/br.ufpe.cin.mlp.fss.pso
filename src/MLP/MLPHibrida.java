@@ -57,10 +57,10 @@ public class MLPHibrida {
 		camadaEscondida = new double[numeroNeuroniosEscondida + 1];
 		camadaSaida = new double[numeroNeuroniosSaida];
 
-		pesosCamadaEntradaEscondida = new double[numeroNeuroniosEscondida][numeroNeuroniosEntrada+1];
+		pesosCamadaEntradaEscondida = new double[numeroNeuroniosEscondida+1][numeroNeuroniosEntrada+1];
 		pesosCamadaEscondidaSaida = new double[numeroNeuroniosSaida][numeroNeuroniosEscondida + 1];
 
-		geraRandomicamentePesos();
+		
 	}
 
 	public static void visualizaPesosRede() {
@@ -89,12 +89,12 @@ public class MLPHibrida {
 			}
 		}
 
-		for (int j = 1; j < numeroNeuroniosSaida; j++) {
+		for (int j = 0; j < numeroNeuroniosSaida; j++) {
 			for (int i = 0; i <= numeroNeuroniosEscondida; i++) {
 				pesosCamadaEscondidaSaida[j][i] = Math.random() - 0.5;
 			}
 		}
-
+		System.out.println("teste");
 	}
 
 	/**
@@ -112,6 +112,7 @@ public class MLPHibrida {
 
 		if (tipoTreinamento.equals(TREINAMENTO_BACK_PROPAGATION)) {
 
+			geraRandomicamentePesos();
 			double[] saidaRede = apresentaPadrao(padrao);
 			backPropagation(saidaDesejada);
 
@@ -300,7 +301,7 @@ public class MLPHibrida {
 		}
 
 		for (int j = 0; j < numeroNeuroniosSaida; j++) {
-			for (int i = 1; i <= numeroNeuroniosEscondida; i++) {
+			for (int i = 0; i <= numeroNeuroniosEscondida; i++) {
 				pesosCamadaEscondidaSaida[j][i] = pesos[k++];
 			}
 		}
