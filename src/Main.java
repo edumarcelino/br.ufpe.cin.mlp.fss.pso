@@ -34,35 +34,15 @@ public class Main {
 		System.out.println("DATASET TESTE: " + dtTeste.size());
 
 		for (int i = 0; i < iteracoes; i++) {
-			
-			for (Iterator iterator = dtTreino.iterator(); iterator.hasNext();) {
 
-				String[] linha = (String[]) iterator.next();
+			// Treinamento para a rede neural
+			double[] pesos = mlp.treinamento(dtTreino,
+					mlp.TREINAMENTO_FISH_SCHOOL_SEARCH);
 
-				// TODO: Tentar transformar de forma generica
-
-				// Converte a linha do dataset para treinar a rede MLP
-				double[] padrao = new double[4];
-				padrao[0] = Double.parseDouble(linha[0]);
-				padrao[1] = Double.parseDouble(linha[1]);
-				padrao[2] = Double.parseDouble(linha[2]);
-				padrao[3] = Double.parseDouble(linha[3]);
-
-				// Converte a saida esperada para o treinamento
-				double[] saidaEsperada = new double[3];
-				saidaEsperada[0] = Double.parseDouble(linha[4]);
-				saidaEsperada[1] = Double.parseDouble(linha[5]);
-				saidaEsperada[2] = Double.parseDouble(linha[6]);
-
-				// Treinamento para a rede neural
-				mlp.treinamento(padrao, saidaEsperada,
-						mlp.TREINAMENTO_BACK_PROPAGATION);
-				
-
-
-			}
+			mlp.setPesos(pesos);
 		}
 
+		
 		for (String[] dt : dtTeste) {
 
 			// Converte a linha do dataset para treinar a rede MLP
@@ -78,19 +58,24 @@ public class Main {
 			saidaEsperada[1] = Double.parseDouble(dt[5]);
 			saidaEsperada[2] = Double.parseDouble(dt[6]);
 
+			
+			
 			double[] saidaRede = mlp.apresentaPadrao(padrao);
 
-			System.out.println("");
+			System.out.println("PADRAO ENTRADA: " + padrao[0] + "," + padrao[1]
+					+ "," + padrao[2] + "," + padrao[3]);
 			System.out.println("SAIDA ESPERADA: " + saidaEsperada[0] + " - "
 					+ saidaEsperada[1] + " - " + saidaEsperada[2]);
 
 			double[] saidaRedeModificada = retornaRede(saidaRede);
-			System.out.println("SAIDA DA MLP: " + saidaRedeModificada[0] + " - "
-					+ saidaRedeModificada[1] + " - " + saidaRedeModificada[2]);
-			
-			
+			System.out.println("SAIDA DA MLP: " + saidaRedeModificada[0]
+					+ " - " + saidaRedeModificada[1] + " - "
+					+ saidaRedeModificada[2]);
+
 			System.out.println("SAIDA DA MLP: " + saidaRede[0] + " - "
 					+ saidaRede[1] + " - " + saidaRede[2]);
+			
+			System.out.println("");
 		}
 
 	}
@@ -115,7 +100,7 @@ public class Main {
 	}
 
 	public static double[] retornaRede(double[] padrao) {
-		double [] retorno = new double[3];
+		double[] retorno = new double[3];
 		if (padrao[0] > padrao[1] && padrao[0] > padrao[2]) {
 			retorno[0] = 1;
 			retorno[1] = 0;
