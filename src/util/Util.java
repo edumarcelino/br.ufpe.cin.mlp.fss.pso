@@ -44,6 +44,11 @@ public class Util {
 
 	//Fim das constantes do Fish
 
+	public static final int QUANTIDADE_PESOS = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA * Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)
+            + (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA * Util.NUMERO_NEURONIOS_CAMADA_SAIDA)
+            + Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA
+            + Util.NUMERO_NEURONIOS_CAMADA_SAIDA;
+	
 	
 	/**
 	 * Metodo para realizar a leitura do arquivo csv
