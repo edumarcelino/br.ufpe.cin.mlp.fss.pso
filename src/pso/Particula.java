@@ -6,6 +6,8 @@ import util.Util;
 
 public class Particula {
 
+	public int identificadorParticula;
+
 	// Posicao das particulas , equivalente a NN pesos da rede neural
 	public double[] posicao;
 
@@ -14,25 +16,26 @@ public class Particula {
 
 	// Melhor posicao encontrada pela particula
 	public double[] melhorPosicao;
-	
+
 	public double melhorErroParticula = Double.MAX_VALUE;
 
 	public int quantidadePesos;
 
 	public double erro;
 
-	public Particula(double[] posicao, double[] velocidade) {
+	public Particula(double[] posicao, double[] velocidade, int identificadorParticula) {
 
 		int pesosTemp1 = (((Util.NUMERO_NEURONIOS_CAMADA_ENTRADA + 1)) * (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA + 1));
 		int pesosTemp2 = ((Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA + 1) * Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
 		this.quantidadePesos = pesosTemp1 + pesosTemp2;
-		
+
 		this.posicao = posicao;
 
 		this.velocidade = velocidade;
 
 		this.melhorPosicao = new double[quantidadePesos];
-
+		
+		this.identificadorParticula = identificadorParticula;
 
 	}
 
@@ -76,6 +79,11 @@ public class Particula {
 		this.melhorErroParticula = melhorErroParticula;
 	}
 
-	
-	
+	public int getIdentificadorParticula() {
+		return identificadorParticula;
+	}
+
+	public void setIdentificadorParticula(int identificadorParticula) {
+		this.identificadorParticula = identificadorParticula;
+	}
 }

@@ -5,13 +5,13 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import util.Util;
-
 import dataset.Dataset;
-
 import MLP.MLPHibrida;
 
 public class PSO {
 
+	public int identificadorParticula;
+	
 	// Inercia e controla a capacidade de exploracao do espaco de solucoes
 	public double w = 0.729;
 
@@ -50,6 +50,7 @@ public class PSO {
 		// randomicamente
 		for (int i = 0; i < enxame.length; ++i) {
 
+
 			// Randomiza a posicao inicial das particulas.
 
 			for (int j = 0; j < randomPosition.length; ++j) {
@@ -66,7 +67,7 @@ public class PSO {
 				randomVelocity[j] = (hi - lo) * Math.random() + lo;
 			}
 
-			enxame[i] = new Particula(randomPosition, randomVelocity);
+			enxame[i] = new Particula(randomPosition, randomVelocity,i );
 		}
 
 	}
@@ -101,7 +102,7 @@ public class PSO {
 		return novaPosicao;
 	}
 
-	public double meanSquaredError(double[] padrao, double[] saidaEsperada,
+	public double meanSquaredError(double[] saidaRede, double[] saidaEsperada,
 			double[] weights, int tamanhoBaseTreinamento) {
 
 		MLPHibrida mlpTemp = new MLPHibrida(
@@ -113,7 +114,6 @@ public class PSO {
 
 		double sumSquaredError = 0.0;
 
-		double[] saidaRede = mlpTemp.apresentaPadrao(padrao);
 
 		for (int i = 0; i < tamanhoBaseTreinamento; ++i) {
 
@@ -124,6 +124,54 @@ public class PSO {
 		return sumSquaredError / tamanhoBaseTreinamento;
 	}
 
+	public static double meanSquaredError(double[] pesos){
+
+        MLPHibrida mlpHibrida = new MLPHibrida(
+                Util.NUMERO_NEURONIOS_CAMADA_ENTRADA,
+                Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA,
+                Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
+        
+        Dataset dataset = new Dataset();
+        
+        ArrayList<String[]> dtTreino = dataset.getDatasetTreino();
+        
+        int tamanhoBaseTreinamento = dtTreino.size();
+        
+        double sumSquaredError = 0.0;
+        
+        mlpHibrida.setPesos(pesos);
+
+        for (Iterator iterator = dtTreino.iterator(); iterator.hasNext();) {
+
+            String[] linha = (String[]) iterator.next();
+
+            // Converte a linha do dataset para treinar a rede MLP
+            double[] padrao = new double[4];
+            padrao[0] = Double.parseDouble(linha[0]);
+            padrao[1] = Double.parseDouble(linha[1]);
+            padrao[2] = Double.parseDouble(linha[2]);
+            padrao[3] = Double.parseDouble(linha[3]);
+
+            // Converte a saida esperada para o treinamento
+            double[] saidaEsperada = new double[3];
+            saidaEsperada[0] = Double.parseDouble(linha[4]);
+            saidaEsperada[1] = Double.parseDouble(linha[5]);
+            saidaEsperada[2] = Double.parseDouble(linha[6]);
+
+            double [] saidaRede = mlpHibrida.apresentaPadrao(padrao);
+
+            for (int i = 0; i < tamanhoBaseTreinamento; ++i) {
+
+                for (int j = 0; j < saidaEsperada.length; ++j) {
+                    
+                	sumSquaredError += ((saidaRede[j] - saidaEsperada[j]) * (saidaRede[j] - saidaEsperada[j]));
+                
+                }
+            }
+        }
+        return sumSquaredError / tamanhoBaseTreinamento;
+    }
+	
 	public double getBestGlobalError() {
 		return bestGlobalError;
 	}
@@ -139,5 +187,6 @@ public class PSO {
 	public void setBestGlobalPosition(double[] bestGlobalPosition) {
 		this.bestGlobalPosition = bestGlobalPosition;
 	}
+
 
 }
