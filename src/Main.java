@@ -12,6 +12,8 @@ public class Main {
 
 	private static double taxaAprendizagem;
 
+	public static String tipoTreinamento;
+	
 	public static void main(String[] args) {
 
 		System.out
@@ -35,11 +37,16 @@ public class Main {
 
 		for (int i = 0; i < iteracoes; i++) {
 
+			tipoTreinamento = mlp.TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION;
+			
 			// Treinamento para a rede neural
 			double[] pesos = mlp.treinamento(dtTreino,
-					mlp.TREINAMENTO_FISH_SCHOOL_SEARCH);
+					tipoTreinamento);
 
-			mlp.setPesos(pesos);
+			if(!tipoTreinamento.equals(mlp.TREINAMENTO_BACK_PROPAGATION)){
+				mlp.setPesos(pesos);
+			}
+
 		}
 
 		
