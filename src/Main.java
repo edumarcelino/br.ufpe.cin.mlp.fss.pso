@@ -8,7 +8,7 @@ import dataset.Dataset;
 public class Main {
 
 	// Parametros
-	private static int iteracoes = 20;
+	private static int iteracoes = 2;
 
 	private static double taxaAprendizagem;
 
@@ -56,7 +56,7 @@ public class Main {
 
 				// Treinamento para a rede neural
 				mlp.treinamento(padrao, saidaEsperada,
-						mlp.TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION);
+						mlp.TREINAMENTO_BACK_PROPAGATION);
 				
 
 
@@ -91,7 +91,6 @@ public class Main {
 			
 			System.out.println("SAIDA DA MLP: " + saidaRede[0] + " - "
 					+ saidaRede[1] + " - " + saidaRede[2]);
-			System.out.println("------------------------------------------------");
 		}
 
 	}
