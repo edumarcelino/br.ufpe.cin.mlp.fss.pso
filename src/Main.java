@@ -8,7 +8,7 @@ import dataset.Dataset;
 public class Main {
 
 	// Parametros
-	private static int iteracoes = 1;
+	private static int iteracoes = 20;
 
 	private static double taxaAprendizagem;
 
@@ -34,6 +34,7 @@ public class Main {
 		System.out.println("DATASET TESTE: " + dtTeste.size());
 
 		for (int i = 0; i < iteracoes; i++) {
+			
 			for (Iterator iterator = dtTreino.iterator(); iterator.hasNext();) {
 
 				String[] linha = (String[]) iterator.next();
@@ -53,10 +54,11 @@ public class Main {
 				saidaEsperada[1] = Double.parseDouble(linha[5]);
 				saidaEsperada[2] = Double.parseDouble(linha[6]);
 
-				
 				// Treinamento para a rede neural
 				mlp.treinamento(padrao, saidaEsperada,
-						mlp.TREINAMENTO_FISH_SCHOOL_SEARCH);
+						mlp.TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION);
+				
+
 
 			}
 		}
@@ -82,8 +84,14 @@ public class Main {
 			System.out.println("SAIDA ESPERADA: " + saidaEsperada[0] + " - "
 					+ saidaEsperada[1] + " - " + saidaEsperada[2]);
 
+			double[] saidaRedeModificada = retornaRede(saidaRede);
+			System.out.println("SAIDA DA MLP: " + saidaRedeModificada[0] + " - "
+					+ saidaRedeModificada[1] + " - " + saidaRedeModificada[2]);
+			
+			
 			System.out.println("SAIDA DA MLP: " + saidaRede[0] + " - "
 					+ saidaRede[1] + " - " + saidaRede[2]);
+			System.out.println("------------------------------------------------");
 		}
 
 	}
@@ -105,6 +113,29 @@ public class Main {
 		quantidadeClasse = listTextoTemp.size();
 
 		return quantidadeClasse;
+	}
+
+	public static double[] retornaRede(double[] padrao) {
+		double [] retorno = new double[3];
+		if (padrao[0] > padrao[1] && padrao[0] > padrao[2]) {
+			retorno[0] = 1;
+			retorno[1] = 0;
+			retorno[2] = 0;
+		}
+
+		else if (padrao[1] > padrao[2]) {
+			retorno[0] = 0;
+			retorno[1] = 1;
+			retorno[2] = 0;
+		}
+
+		else {
+			retorno[0] = 0;
+			retorno[1] = 0;
+			retorno[2] = 1;
+		}
+
+		return retorno;
 	}
 
 }
