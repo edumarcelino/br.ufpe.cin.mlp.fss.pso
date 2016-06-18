@@ -11,6 +11,8 @@ public class Dataset {
     ArrayList<String[]> datasetTreino = new ArrayList<String[]>();
     ArrayList<String[]> datasetTeste = new ArrayList<String[]>();
 
+//    List<>
+
     public Dataset() {
 
         ArrayList<String[]> datasetCarregado = new ArrayList<String[]>();
@@ -19,7 +21,7 @@ public class Dataset {
         try {
 
 //            datasetCarregado = Util.leituraCSV("/home/ejmvs/workspace/br.ufpe.cin.mlp.fss.pso.git/src/dataset/iris_mapped.csv", ",");
-            datasetCarregado = Util.leituraCSV("C:/Users/c087956/workspace_luna/br.ufpe.cin.mlp.fss.pso/src/dataset/iris_mapped.csv", ",");
+            datasetCarregado = Util.leituraCSV("/Users/moura/Mestrado/SistemasInteligentesHibridos/br.ufpe.cin.mlp.fss.pso/src/dataset/iris_mapped.csv", ",");
 
         } catch (IOException e1) {
             System.out.println("Erro no carregamento do arquivo: "
@@ -29,16 +31,16 @@ public class Dataset {
         Collections.shuffle(datasetCarregado);
 
         // Quantidade de linhas para treinar com 90% dos dados
-        int qtdLinhasNoventaPorcento = (int) Math
+        int qtdLinhasDezPorcento = (int) Math
                 .round(datasetCarregado.size() * 0.9);
 
         // Inicializa o dataset de treino
-        for (int i = 0; i < qtdLinhasNoventaPorcento; i++) {
+        for (int i = 0; i < qtdLinhasDezPorcento; i++) {
             datasetTreino.add(datasetCarregado.get(i));
         }
 
         // Inicializa o dataset de teste
-        for (int i = qtdLinhasNoventaPorcento; i < datasetCarregado.size(); i++) {
+        for (int i = qtdLinhasDezPorcento; i < datasetCarregado.size(); i++) {
             datasetTeste.add(datasetCarregado.get(i));
         }
 

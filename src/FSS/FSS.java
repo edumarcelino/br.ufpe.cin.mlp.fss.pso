@@ -102,9 +102,8 @@ public class FSS {
                     //continue to update neighbor with dilate/shrink
                     fish.neighbor.variables[i] += ( step_size * direction * ThreadLocalRandom.current().nextDouble(0,1.1) * (fish.neighbor.variables[i]-school_barycentre[i]) ) / de;
 
-                    //TODO take care about bounds of search space
-//                    if(fish.neighbor.variables[i]<f.getMin()) fish.neighbor.variables[i]=f.getMin();
-//                    if(fish.neighbor.variables[i]>f.getMax()) fish.neighbor.variables[i]=f.getMax();
+                    if(fish.neighbor.variables[i]<Util.FUNCTION_INF_LIMIT) fish.neighbor.variables[i]=Util.FUNCTION_INF_LIMIT;
+                    if(fish.neighbor.variables[i]>Util.FUNCTION_SUP_LIMIT) fish.neighbor.variables[i]=Util.FUNCTION_SUP_LIMIT;
                 }
                 //evaluate new current solution
                 fish.neighbor.fitness = meanSquaredError(fish.neighbor.variables);
@@ -233,7 +232,9 @@ public class FSS {
             for(int i=0;i<quantidadePesos;i++){
                 fish.delta_x[i] = ThreadLocalRandom.current().nextDouble(-1,1.1)*step;
                 fish.neighbor.variables[i] = fish.delta_x[i];
-                //TODO take care about bounds of search space
+
+                if(fish.neighbor.variables[i]<Util.FUNCTION_INF_LIMIT) fish.neighbor.variables[i]=Util.FUNCTION_INF_LIMIT;
+                if(fish.neighbor.variables[i]>Util.FUNCTION_SUP_LIMIT) fish.neighbor.variables[i]=Util.FUNCTION_SUP_LIMIT;
             }
 
             fish.neighbor.fitness = meanSquaredError(fish.neighbor.variables);

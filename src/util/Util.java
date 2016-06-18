@@ -7,6 +7,11 @@ import java.util.ArrayList;
 
 public class Util {
 
+
+	public static double FUNCTION_INF_LIMIT = -10.0;
+
+	public static double FUNCTION_SUP_LIMIT = 10.0;
+
 	// Constantes da MLP
 
 	public static int NUMERO_NEURONIOS_CAMADA_ENTRADA = 4;
@@ -27,17 +32,17 @@ public class Util {
 
 	// Constantes do Fish
 
-	public static double STEP_IND_INCIAL = 10.0; // Testaram com 10, 1 e 0.1 %
+	public static double STEP_IND_INCIAL = 1.0; // Testaram com 10, 1 e 0.1 %
 													// do espaco de busca
 
-	public static double STEP_COLECTIVE_INCIAL = 10.0; // Testaram com 0.01,
+	public static double STEP_COLECTIVE_INCIAL = 1.0; // Testaram com 0.01,
 														// 0.001 e 0.0001 % do
 														// espaco de busca
 
-	public static double STEP_IND_FINAL = 0.00001;// Testaram com 10, 1 e 0.1 %
+	public static double STEP_IND_FINAL = 0.0001;// Testaram com 10, 1 e 0.1 %
 													// do espaco de busca
 
-	public static double STEP_COLECTIVE_FINAL = 0.00001; // Testaram com 0.01,
+	public static double STEP_COLECTIVE_FINAL = 0.0001; // Testaram com 0.01,
 															// 0.001 e 0.0001 %
 															// do espaco de
 															// busca
@@ -50,7 +55,7 @@ public class Util {
 
 	public static int FISH_QUANTITY = 15; // Mesmo numero usado no artigo
 
-	public static double NUMBER_OF_ITERATIONS = 50; // Tambem retirado do artigo
+	public static double NUMBER_OF_ITERATIONS = 30; // Tambem retirado do artigo
 													// original
 
 	// Fim das constantes do Fish
