@@ -1,4 +1,5 @@
 package util;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,39 +18,48 @@ public class Util {
 	// Fim das constantes da MLP
 
 	// Constantes do PSO
-	
+
 	public static int NUMERO_ITERACOES_PSO = 1;
-	
+
 	public static double ERRO_PARADA_PSO = 0.06;
 
 	// Fim das constantes do PSO
 
-	//Constantes do Fish
+	// Constantes do Fish
 
-	public static double STEP_IND_INCIAL = 10.0; // Testaram com 10, 1 e 0.1 % do espaco de busca
+	public static double STEP_IND_INCIAL = 10.0; // Testaram com 10, 1 e 0.1 %
+													// do espaco de busca
 
-	public static double STEP_COLECTIVE_INCIAL = 10.0; // Testaram com 0.01, 0.001 e 0.0001 % do espaco de busca
+	public static double STEP_COLECTIVE_INCIAL = 10.0; // Testaram com 0.01,
+														// 0.001 e 0.0001 % do
+														// espaco de busca
 
-	public static double STEP_IND_FINAL = 0.00001;// Testaram com 10, 1 e 0.1 % do espaco de busca
+	public static double STEP_IND_FINAL = 0.00001;// Testaram com 10, 1 e 0.1 %
+													// do espaco de busca
 
-	public static double STEP_COLECTIVE_FINAL = 0.00001; // Testaram com 0.01, 0.001 e 0.0001 % do espaco de busca
+	public static double STEP_COLECTIVE_FINAL = 0.00001; // Testaram com 0.01,
+															// 0.001 e 0.0001 %
+															// do espaco de
+															// busca
 
-	public static double W_SCALE = 5000; // Peso maximo dos peixes; Metade do numero de iteracoes usadas no artigo original
+	public static double W_SCALE = 5000; // Peso maximo dos peixes; Metade do
+											// numero de iteracoes usadas no
+											// artigo original
 
 	public static double W_MINIMUM = 1; // Peso minimo dos peixes
 
 	public static int FISH_QUANTITY = 15; // Mesmo numero usado no artigo
 
-	public static double NUMBER_OF_ITERATIONS = 50; // Tambem retirado do artigo original
+	public static double NUMBER_OF_ITERATIONS = 50; // Tambem retirado do artigo
+													// original
 
-	//Fim das constantes do Fish
+	// Fim das constantes do Fish
 
 	public static final int QUANTIDADE_PESOS = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA * Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)
-            + (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA * Util.NUMERO_NEURONIOS_CAMADA_SAIDA)
-            + Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA
-            + Util.NUMERO_NEURONIOS_CAMADA_SAIDA;
-	
-	
+			+ (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA * Util.NUMERO_NEURONIOS_CAMADA_SAIDA)
+			+ Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA
+			+ Util.NUMERO_NEURONIOS_CAMADA_SAIDA;
+
 	/**
 	 * Metodo para realizar a leitura do arquivo csv
 	 * 
@@ -77,7 +87,6 @@ public class Util {
 
 	}
 
-	
 	/**
 	 * Metodo para normalizar os dados
 	 * 
@@ -132,7 +141,7 @@ public class Util {
 
 		return max;
 	}
-	
+
 	/**
 	 * Calculates the mean value of <code>array</code>
 	 * 
@@ -165,21 +174,41 @@ public class Util {
 
 		return Math.sqrt(sd / serie.length);
 	}
-	
-	
 
 	public static int getMinPos(double[] list) {
 		int pos = 0;
 		double minValue = list[0];
-		
-		for(int i=0; i<list.length; i++) {
-			if(list[i] < minValue) {
+
+		for (int i = 0; i < list.length; i++) {
+			if (list[i] < minValue) {
 				pos = i;
 				minValue = list[i];
 			}
 		}
-		
+
 		return pos;
 	}
-		
+
+	public static int maxIndex(double[] array) {
+		int maxIndex = 0;
+		for (int i = 1; i < array.length; i++) {
+			double newnumber = array[i];
+			if ((newnumber > array[maxIndex])) {
+				maxIndex = i;
+			}
+		}
+		return maxIndex;
+	}
+	
+	public static int maxIndex(int[] array) {
+		int maxIndex = 0;
+		for (int i = 1; i < array.length; i++) {
+			int newnumber = array[i];
+			if ((newnumber > array[maxIndex])) {
+				maxIndex = i;
+			}
+		}
+		return maxIndex;
+	}
+
 }
