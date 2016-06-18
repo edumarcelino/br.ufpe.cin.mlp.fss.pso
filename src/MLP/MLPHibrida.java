@@ -23,6 +23,8 @@ public class MLPHibrida {
 	private int numeroNeuroniosSaida;
 
 	private int qtdePesos;
+	
+	private static Dataset dataset;
 
 	// Camadas da rede
 	private double[] camadaEntrada;
@@ -34,7 +36,7 @@ public class MLPHibrida {
 	private double[][] pesosCamadaEscondidaSaida;
 
 	// Taxa de aprendizagem
-	private double TAXA_APRENDIZAGEM = 0.5;
+	private double TAXA_APRENDIZAGEM = 0.6;
 
 	/**
 	 * Cria uma nova instancia da rede SimpleMLP.
@@ -113,8 +115,9 @@ public class MLPHibrida {
 	 *            numero de neuronios da camada de saída
 	 */
 	public double[] treinamento(ArrayList<String[]> dtTreino,
-			String tipoTreinamento) {
+			String tipoTreinamento, Dataset dataset) {
 
+		this.dataset = dataset;
 		
 		if (tipoTreinamento.equals(TREINAMENTO_BACK_PROPAGATION)) {
 
@@ -146,7 +149,7 @@ public class MLPHibrida {
 
 		} else if (tipoTreinamento.equals(TREINAMENTO_FISH_SCHOOL_SEARCH)) {
 
-			double[] pesosFSS = fssTreinamento();
+			double[] pesosFSS = fssTreinamento(dataset);
             this.setPesos(pesosFSS);
 			return pesosFSS;
 
@@ -165,13 +168,11 @@ public class MLPHibrida {
 
 		}
 		return camadaEntrada;
-
-
 	}
 
-	private double[] fssTreinamento() {
+	private double[] fssTreinamento(Dataset dataset) {
 
-		FSS fss = new FSS();
+		FSS fss = new FSS(dataset);
 
 		return fss.centralExecution();
 
@@ -588,8 +589,6 @@ public class MLPHibrida {
 				Util.NUMERO_NEURONIOS_CAMADA_ENTRADA,
 				Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA,
 				Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
-
-		Dataset dataset = new Dataset();
 
 		ArrayList<String[]> dtTreino = dataset.getDatasetTreino();
 

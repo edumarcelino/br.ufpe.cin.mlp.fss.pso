@@ -31,6 +31,8 @@ public class Main {
         ArrayList<String[]> datasetCarregadoTreino = new ArrayList<String[]>();
         
         for(int execucao=1;execucao<=30;execucao++){
+        	long tempoInicio = System.currentTimeMillis();
+        	double acuraciaMediaPorExecucao = 0.0;
         	for(int fold = 1; fold<=10; fold++){
         		try {
 					datasetCarregadoTeste = Util.leituraCSV("/Users/moura/Pessoal/mestrado/br.ufpe.cin.mlp.fss.pso/src/dataset/IRIS_FOLD/execucao_"+execucao+"_fold_"+fold+"_TESTE.csv", ",");
@@ -43,12 +45,11 @@ public class Main {
         		dataset.setDatasetTeste(datasetCarregadoTeste);
         		dataset.setDatasetTreino(datasetCarregadoTreino);
         		
-        		tipoTreinamento = mlp.TREINAMENTO_BACK_PROPAGATION;
-        		System.out.println("TIPO DE TREINAMENTO: " + tipoTreinamento);
+        		tipoTreinamento = mlp.TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION;
 
                 // Treinamento para a rede neural
                 double[] pesos = mlp.treinamento(datasetCarregadoTreino,
-                        tipoTreinamento);
+                        tipoTreinamento,dataset);
 
                 if (!tipoTreinamento.equals(mlp.TREINAMENTO_BACK_PROPAGATION)) {
                     mlp.setPesos(pesos);
@@ -82,9 +83,12 @@ public class Main {
 
                     acumuladorRede.add(saidaRedeTemp);
                 }
-                System.out.print("Execucao: "+execucao+" Fold: "+fold+" Acurácia: "+accuracy(acumuladorEsperada, acumuladorRede));
-        		
+                double acuracia = accuracy(acumuladorEsperada, acumuladorRede);
+                acuraciaMediaPorExecucao = acuraciaMediaPorExecucao + acuracia; 
+                System.out.println("Execucao: "+execucao+" Fold: "+fold+" Acurácia: "+acuracia);
         	}
+        	System.out.println("Acuracia média da execucao "+ execucao +" -> "+ acuraciaMediaPorExecucao/10);
+        	System.out.println("Tempo da execucao "+execucao+": "+(System.currentTimeMillis()-tempoInicio)+" milisegundos");
         	
         }
 
@@ -110,11 +114,6 @@ public class Main {
 //
 //            double[] saidaRede = mlp.apresentaPadrao(padrao);
 //        }
-
-        System.out.println("########## DATASET TESTE ##########");
-
-        
-        
 
     }
 
@@ -170,8 +169,6 @@ public class Main {
             }
 
         }
-        System.out.println(numCorrect);
-        System.out.println(numWrong);
         return (numCorrect) / (numCorrect + numWrong);
     }
 

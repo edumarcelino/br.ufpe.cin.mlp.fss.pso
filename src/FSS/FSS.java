@@ -13,6 +13,12 @@ import java.util.concurrent.ThreadLocalRandom;
  * Created by moura on 6/12/16.
  */
 public class FSS {
+	
+	private static Dataset dataset;
+	
+	public FSS(Dataset dataset){
+		this.dataset = dataset;
+	}
 
     public static final int quantidadePesos = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA * Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)
             + (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA * Util.NUMERO_NEURONIOS_CAMADA_SAIDA)
@@ -287,7 +293,7 @@ public class FSS {
                 Util.NUMERO_NEURONIOS_CAMADA_ENTRADA,
                 Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA,
                 Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
-        Dataset dataset = new Dataset();
+        
         ArrayList<String[]> dtTreino = dataset.getDatasetTreino();
         int tamanhoBaseTreinamento = dtTreino.size();
         double sumSquaredError = 0.0;
