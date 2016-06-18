@@ -8,7 +8,7 @@ import dataset.Dataset;
 public class Main {
 
 	// Parametros
-	private static int iteracoes = 2;
+	private static int iteracoes = 20;
 
 	private static double taxaAprendizagem;
 
@@ -37,7 +37,7 @@ public class Main {
 
 		for (int i = 0; i < iteracoes; i++) {
 
-			tipoTreinamento = mlp.TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION;
+			tipoTreinamento = mlp.TREINAMENTO_BACK_PROPAGATION;
 			
 			// Treinamento para a rede neural
 			double[] pesos = mlp.treinamento(dtTreino,
@@ -48,9 +48,12 @@ public class Main {
 			}
 
 		}
-
 		
-		for (String[] dt : dtTeste) {
+		System.out.println("TIPO DE TREINAMENTO: "+ tipoTreinamento);
+		
+		System.out.println("########## DATASET TREINO ##########");
+
+		for (String[] dt : dtTreino) {
 
 			// Converte a linha do dataset para treinar a rede MLP
 			double[] padrao = new double[4];
@@ -65,7 +68,6 @@ public class Main {
 			saidaEsperada[1] = Double.parseDouble(dt[5]);
 			saidaEsperada[2] = Double.parseDouble(dt[6]);
 
-			
 			
 			double[] saidaRede = mlp.apresentaPadrao(padrao);
 
@@ -84,6 +86,44 @@ public class Main {
 			
 			System.out.println("");
 		}
+		
+		System.out.println("########## DATASET TESTE ##########");
+		
+		for (String[] dt : dtTeste) {
+
+			// Converte a linha do dataset para treinar a rede MLP
+			double[] padrao = new double[4];
+			padrao[0] = Double.parseDouble(dt[0]);
+			padrao[1] = Double.parseDouble(dt[1]);
+			padrao[2] = Double.parseDouble(dt[2]);
+			padrao[3] = Double.parseDouble(dt[3]);
+
+			// Converte a saida esperada para o treinamento
+			double[] saidaEsperada = new double[3];
+			saidaEsperada[0] = Double.parseDouble(dt[4]);
+			saidaEsperada[1] = Double.parseDouble(dt[5]);
+			saidaEsperada[2] = Double.parseDouble(dt[6]);
+
+			
+			double[] saidaRede = mlp.apresentaPadrao(padrao);
+
+			System.out.println("PADRAO ENTRADA: " + padrao[0] + "," + padrao[1]
+					+ "," + padrao[2] + "," + padrao[3]);
+			System.out.println("SAIDA ESPERADA: " + saidaEsperada[0] + " - "
+					+ saidaEsperada[1] + " - " + saidaEsperada[2]);
+
+			double[] saidaRedeModificada = retornaRede(saidaRede);
+			System.out.println("SAIDA DA MLP: " + saidaRedeModificada[0]
+					+ " - " + saidaRedeModificada[1] + " - "
+					+ saidaRedeModificada[2]);
+
+			System.out.println("SAIDA DA MLP: " + saidaRede[0] + " - "
+					+ saidaRede[1] + " - " + saidaRede[2]);
+			
+			System.out.println("");
+		}
+		
+		
 
 	}
 
@@ -129,4 +169,27 @@ public class Main {
 		return retorno;
 	}
 
+	public double accuracy(double[] saidaEsperada, double[] saidaRede)
+    {
+      int numCorrect = 0;
+      int numWrong = 0;
+      
+      for (int i = 0; i < saidaEsperada.length; ++i)
+      {
+        
+        int maxIndex = Util.maxIndex(saidaRede); 
+
+        if (saidaEsperada[maxIndex] == 1.0){
+        	 ++numCorrect;	
+        }
+         
+        else{
+        	++numWrong;
+        }
+          
+      }
+      return (numCorrect * 1.0) / (numCorrect + numWrong); 
+    }
+
+	
 }
