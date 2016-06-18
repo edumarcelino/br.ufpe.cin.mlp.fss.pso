@@ -146,34 +146,8 @@ public class MLPHibrida {
 
 		} else if (tipoTreinamento.equals(TREINAMENTO_FISH_SCHOOL_SEARCH)) {
 
-			double[] pesosFSS = new double[Util.QUANTIDADE_PESOS];
-			for (Iterator iterator = dtTreino.iterator(); iterator.hasNext();) {
-
-				String[] linha = (String[]) iterator.next();
-
-				// TODO: Tentar transformar de forma generica
-
-				// Converte a linha do dataset para treinar a rede MLP
-				double[] padrao = new double[4];
-				padrao[0] = Double.parseDouble(linha[0]);
-				padrao[1] = Double.parseDouble(linha[1]);
-				padrao[2] = Double.parseDouble(linha[2]);
-				padrao[3] = Double.parseDouble(linha[3]);
-
-				// Converte a saida esperada para o treinamento
-				double[] saidaEsperada = new double[3];
-				saidaEsperada[0] = Double.parseDouble(linha[4]);
-				saidaEsperada[1] = Double.parseDouble(linha[5]);
-				saidaEsperada[2] = Double.parseDouble(linha[6]);
-
-				// Apresenta o padr�o para a rede neural
-				//double[] saidaRede = apresentaPadrao(padrao);
-
-				pesosFSS = fssTreinamento(saidaEsperada);
-				this.setPesos(pesosFSS);
-				
-				
-			}
+			double[] pesosFSS = fssTreinamento();
+            this.setPesos(pesosFSS);
 			return pesosFSS;
 
 		} else if (tipoTreinamento
@@ -195,7 +169,7 @@ public class MLPHibrida {
 
 	}
 
-	private double[] fssTreinamento(double[] saidaDesejada) {
+	private double[] fssTreinamento() {
 
 		FSS fss = new FSS();
 
