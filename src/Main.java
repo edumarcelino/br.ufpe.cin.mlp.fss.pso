@@ -2,14 +2,12 @@ import MLP.MLPHibrida;
 import dataset.Dataset;
 import util.Util;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class Main {
-
-    // Parametros
-    private static int iteracoes = 1;
 
     private static double taxaAprendizagem;
 
@@ -20,10 +18,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out
-                .println("-----------------REDE NEURAL - MLP-----------------");
-        System.out.println("QUANTIDADE DE ITERACOES = " + iteracoes + "\n");
-
         MLPHibrida mlp = new MLPHibrida(Util.NUMERO_NEURONIOS_CAMADA_ENTRADA,
                 Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA,
                 Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
@@ -32,28 +26,69 @@ public class Main {
         System.out.println("Training...");
 
         Dataset dataset = new Dataset();
+        
+        ArrayList<String[]> datasetCarregadoTeste = new ArrayList<String[]>();
+        ArrayList<String[]> datasetCarregadoTreino = new ArrayList<String[]>();
+        
+        for(int execucao=1;execucao<=30;execucao++){
+        	for(int fold = 1; fold<=10; fold++){
+        		try {
+					datasetCarregadoTeste = Util.leituraCSV("/Users/moura/Pessoal/mestrado/br.ufpe.cin.mlp.fss.pso/src/dataset/IRIS_FOLD/execucao_"+execucao+"_fold_"+fold+"_TESTE.csv", ",");
+					datasetCarregadoTreino = Util.leituraCSV("/Users/moura/Pessoal/mestrado/br.ufpe.cin.mlp.fss.pso/src/dataset/IRIS_FOLD//execucao_"+execucao+"_fold_"+fold+"_TREINO.csv", ",");
+        		} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		
+        		dataset.setDatasetTeste(datasetCarregadoTeste);
+        		dataset.setDatasetTreino(datasetCarregadoTreino);
+        		
+        		tipoTreinamento = mlp.TREINAMENTO_BACK_PROPAGATION;
+        		System.out.println("TIPO DE TREINAMENTO: " + tipoTreinamento);
 
-        ArrayList<String[]> dtTeste = dataset.getDatasetTeste();
-        ArrayList<String[]> dtTreino = dataset.getDatasetTreino();
+                // Treinamento para a rede neural
+                double[] pesos = mlp.treinamento(datasetCarregadoTreino,
+                        tipoTreinamento);
 
-        System.out.println("DATASET TREINO: " + dtTreino.size());
-        System.out.println("DATASET TESTE: " + dtTeste.size());
+                if (!tipoTreinamento.equals(mlp.TREINAMENTO_BACK_PROPAGATION)) {
+                    mlp.setPesos(pesos);
+                }
+                
+                double[] saidaEsperada;
+                double[] padrao;
+                double[] saidaRede;
+                for (String[] dt : datasetCarregadoTeste) {
 
-        for (int i = 0; i < iteracoes; i++) {
+                    // Converte a linha do dataset para treinar a rede MLP
+                    padrao = new double[4];
+                    padrao[0] = Double.parseDouble(dt[0]);
+                    padrao[1] = Double.parseDouble(dt[1]);
+                    padrao[2] = Double.parseDouble(dt[2]);
+                    padrao[3] = Double.parseDouble(dt[3]);
 
-            tipoTreinamento = mlp.TREINAMENTO_FISH_SCHOOL_SEARCH;
+                    // Converte a saida esperada para o treinamento
+                    saidaEsperada = new double[3];
+                    saidaEsperada[0] = Double.parseDouble(dt[4]);
+                    saidaEsperada[1] = Double.parseDouble(dt[5]);
+                    saidaEsperada[2] = Double.parseDouble(dt[6]);
+                    acumuladorEsperada.add(saidaEsperada);
 
-            // Treinamento para a rede neural
-            double[] pesos = mlp.treinamento(dtTreino,
-                    tipoTreinamento);
 
-            if (!tipoTreinamento.equals(mlp.TREINAMENTO_BACK_PROPAGATION)) {
-                mlp.setPesos(pesos);
-            }
+                    saidaRede = mlp.apresentaPadrao(padrao);
+                    double [] saidaRedeTemp = new double[3];
+                    for(int i=0; i <saidaRede.length; i++){
+                        saidaRedeTemp[i] = saidaRede[i];
+                    }
 
+                    acumuladorRede.add(saidaRedeTemp);
+                }
+                System.out.print("Execucao: "+execucao+" Fold: "+fold+" Acurácia: "+accuracy(acumuladorEsperada, acumuladorRede));
+        		
+        	}
+        	
         }
 
-        System.out.println("TIPO DE TREINAMENTO: " + tipoTreinamento);
+        
 
 //        System.out.println("########## DATASET TREINO ##########");
 
@@ -78,35 +113,8 @@ public class Main {
 
         System.out.println("########## DATASET TESTE ##########");
 
-        double[] saidaEsperada;
-        double[] padrao;
-        double[] saidaRede;
-        for (String[] dt : dtTeste) {
-
-            // Converte a linha do dataset para treinar a rede MLP
-            padrao = new double[4];
-            padrao[0] = Double.parseDouble(dt[0]);
-            padrao[1] = Double.parseDouble(dt[1]);
-            padrao[2] = Double.parseDouble(dt[2]);
-            padrao[3] = Double.parseDouble(dt[3]);
-
-            // Converte a saida esperada para o treinamento
-            saidaEsperada = new double[3];
-            saidaEsperada[0] = Double.parseDouble(dt[4]);
-            saidaEsperada[1] = Double.parseDouble(dt[5]);
-            saidaEsperada[2] = Double.parseDouble(dt[6]);
-            acumuladorEsperada.add(saidaEsperada);
-
-
-            saidaRede = mlp.apresentaPadrao(padrao);
-            double [] saidaRedeTemp = new double[3];
-            for(int i=0; i <saidaRede.length; i++){
-                saidaRedeTemp[i] = saidaRede[i];
-            }
-
-            acumuladorRede.add(saidaRedeTemp);
-        }
-        System.out.print(accuracy(acumuladorEsperada, acumuladorRede));
+        
+        
 
     }
 

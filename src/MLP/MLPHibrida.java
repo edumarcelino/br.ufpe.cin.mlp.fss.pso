@@ -118,7 +118,7 @@ public class MLPHibrida {
 		
 		if (tipoTreinamento.equals(TREINAMENTO_BACK_PROPAGATION)) {
 
-			for (Iterator iterator = dtTreino.iterator(); iterator.hasNext();) {
+			for (Iterator<String[]> iterator = dtTreino.iterator(); iterator.hasNext();) {
 
 				String[] linha = (String[]) iterator.next();
 

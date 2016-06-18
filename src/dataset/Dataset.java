@@ -1,10 +1,6 @@
 package dataset;
 
-import util.Util;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Dataset {
 
@@ -14,36 +10,6 @@ public class Dataset {
 //    List<>
 
     public Dataset() {
-
-        ArrayList<String[]> datasetCarregado = new ArrayList<String[]>();
-
-        // Realiza a leitura do csv para um array
-        try {
-
-//            datasetCarregado = Util.leituraCSV("/home/ejmvs/workspace/br.ufpe.cin.mlp.fss.pso.git/src/dataset/iris_mapped.csv", ",");
-            datasetCarregado = Util.leituraCSV("/Users/moura/Mestrado/SistemasInteligentesHibridos/br.ufpe.cin.mlp.fss.pso/src/dataset/iris_mapped.csv", ",");
-
-        } catch (IOException e1) {
-            System.out.println("Erro no carregamento do arquivo: "
-                    + e1.toString());
-        }
-        // Embaralhando o dataset
-        Collections.shuffle(datasetCarregado);
-
-        // Quantidade de linhas para treinar com 90% dos dados
-        int qtdLinhasDezPorcento = (int) Math
-                .round(datasetCarregado.size() * 0.9);
-
-        // Inicializa o dataset de treino
-        for (int i = 0; i < qtdLinhasDezPorcento; i++) {
-            datasetTreino.add(datasetCarregado.get(i));
-        }
-
-        // Inicializa o dataset de teste
-        for (int i = qtdLinhasDezPorcento; i < datasetCarregado.size(); i++) {
-            datasetTeste.add(datasetCarregado.get(i));
-        }
-
 
     }
 
