@@ -13,9 +13,9 @@ import util.Util;
 
 public class MLPHibrida {
 
-	public static final String TREINAMENTO_BACK_PROPAGATION = "backpropagation";
-	public static final String TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION = "pso";
-	public static final String TREINAMENTO_FISH_SCHOOL_SEARCH = "fss";
+	public static final String TREINAMENTO_BACK_PROPAGATION = "BACK PROPAGATION";
+	public static final String TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION = "PARTICLE SWARM OPTIMIZATION";
+	public static final String TREINAMENTO_FISH_SCHOOL_SEARCH = "FISH SCHOOL SEARCH";
 
 	// Numero de neuronios nas camadas
 	private int numeroNeuroniosEntrada;
@@ -137,7 +137,7 @@ public class MLPHibrida {
 				saidaEsperada[1] = Double.parseDouble(linha[5]);
 				saidaEsperada[2] = Double.parseDouble(linha[6]);
 
-				// Apresenta o padrão para a rede neural
+				// Apresenta o padrï¿½o para a rede neural
 				double[] saidaRede = apresentaPadrao(padrao);
 
 				// Executa o backpropagation
@@ -166,7 +166,7 @@ public class MLPHibrida {
 				saidaEsperada[1] = Double.parseDouble(linha[5]);
 				saidaEsperada[2] = Double.parseDouble(linha[6]);
 
-				// Apresenta o padrão para a rede neural
+				// Apresenta o padrï¿½o para a rede neural
 				//double[] saidaRede = apresentaPadrao(padrao);
 
 				pesosFSS = fssTreinamento(saidaEsperada);
