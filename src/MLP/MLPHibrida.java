@@ -23,7 +23,7 @@ public class MLPHibrida {
 	private int numeroNeuroniosSaida;
 
 	private int qtdePesos;
-	
+
 	private static Dataset dataset;
 
 	// Camadas da rede
@@ -36,7 +36,7 @@ public class MLPHibrida {
 	private double[][] pesosCamadaEscondidaSaida;
 
 	// Taxa de aprendizagem
-	private double TAXA_APRENDIZAGEM = 0.6;
+	private double TAXA_APRENDIZAGEM = 1.0;
 
 	/**
 	 * Cria uma nova instancia da rede SimpleMLP.
@@ -48,8 +48,7 @@ public class MLPHibrida {
 	 * @param numeroNeuroniosSaida
 	 *            numero de neuronios da camada de saida
 	 */
-	public MLPHibrida(int numeroNeuroniosEntrada, int numeroNeuroniosEscondida,
-			int numeroNeuroniosSaida) {
+	public MLPHibrida(int numeroNeuroniosEntrada, int numeroNeuroniosEscondida, int numeroNeuroniosSaida) {
 
 		setNumeroNeuroniosEntrada(numeroNeuroniosEntrada);
 		setNumeroNeuroniosEscondida(numeroNeuroniosEscondida);
@@ -114,55 +113,57 @@ public class MLPHibrida {
 	 * @param numeroNeuroniosSaida
 	 *            numero de neuronios da camada de saída
 	 */
-	public double[] treinamento(ArrayList<String[]> dtTreino,
-			String tipoTreinamento, Dataset dataset) {
+	public double[] treinamento(ArrayList<String[]> dtTreino, String tipoTreinamento, Dataset dataset) {
 
 		this.dataset = dataset;
-		
+
 		if (tipoTreinamento.equals(TREINAMENTO_BACK_PROPAGATION)) {
 
-			for (Iterator<String[]> iterator = dtTreino.iterator(); iterator.hasNext();) {
+			double sumSquaredError = Double.MAX_VALUE;
+			int count = 0;
+			while (sumSquaredError > Util.ERRO_PARADA) {
+				for (Iterator<String[]> iterator = dtTreino.iterator(); iterator.hasNext();) {
 
-				String[] linha = (String[]) iterator.next();
+					String[] linha = (String[]) iterator.next();
 
-				// TODO: Tentar transformar de forma generica
+					// TODO: Tentar transformar de forma generica
 
-				// Converte a linha do dataset para treinar a rede MLP
-				double[] padrao = new double[4];
-				padrao[0] = Double.parseDouble(linha[0]);
-				padrao[1] = Double.parseDouble(linha[1]);
-				padrao[2] = Double.parseDouble(linha[2]);
-				padrao[3] = Double.parseDouble(linha[3]);
+					// Converte a linha do dataset para treinar a rede MLP
+					double[] padrao = new double[4];
+					padrao[0] = Double.parseDouble(linha[0]);
+					padrao[1] = Double.parseDouble(linha[1]);
+					padrao[2] = Double.parseDouble(linha[2]);
+					padrao[3] = Double.parseDouble(linha[3]);
 
-				// Converte a saida esperada para o treinamento
-				double[] saidaEsperada = new double[3];
-				saidaEsperada[0] = Double.parseDouble(linha[4]);
-				saidaEsperada[1] = Double.parseDouble(linha[5]);
-				saidaEsperada[2] = Double.parseDouble(linha[6]);
+					// Converte a saida esperada para o treinamento
+					double[] saidaEsperada = new double[3];
+					saidaEsperada[0] = Double.parseDouble(linha[4]);
+					saidaEsperada[1] = Double.parseDouble(linha[5]);
+					saidaEsperada[2] = Double.parseDouble(linha[6]);
 
-				// Apresenta o padr�o para a rede neural
-				double[] saidaRede = apresentaPadrao(padrao);
+					// Apresenta o padr�o para a rede neural
+					double[] saidaRede = apresentaPadrao(padrao);
 
-				// Executa o backpropagation
-				backPropagation(saidaEsperada);
+					// Executa o backpropagation
+					backPropagation(saidaEsperada);
+					for (int j = 0; j < saidaEsperada.length; ++j) {
+						sumSquaredError += ((saidaRede[j] - saidaEsperada[j]) * (saidaRede[j] - saidaEsperada[j]));
+					}
+					sumSquaredError = sumSquaredError/dtTreino.size();
+				}
+//				System.out.println("Iteração: "+count+" Erro médio: "+sumSquaredError);
+				count = count +1;
 			}
 
 		} else if (tipoTreinamento.equals(TREINAMENTO_FISH_SCHOOL_SEARCH)) {
 
 			double[] pesosFSS = fssTreinamento(dataset);
-            this.setPesos(pesosFSS);
+			this.setPesos(pesosFSS);
 			return pesosFSS;
 
-		} else if (tipoTreinamento
-				.equals(TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION)) {
+		} else if (tipoTreinamento.equals(TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION)) {
 
-			int numParticles = 12;
-			int maxEpochs = 700;
-			double exitError = 0.060;
-			double probDeath = 0.005;
-
-			double[] bestWeights = treino(numParticles, maxEpochs, exitError,
-					probDeath);
+			double[] bestWeights = treino(Util.NUMBER_OF_PARTICLES, Util.MAX_EPOCHS, Util.ERRO_PARADA, Util.PROB_DEATH);
 
 			return bestWeights;
 
@@ -176,60 +177,6 @@ public class MLPHibrida {
 
 		return fss.centralExecution();
 
-	}
-
-	private double[] psoTreinamento(double[] saidaEsperada, double[] saidaRede,
-			int tamanhoDatasetTreino, PSO pso) {
-
-		int i = 0;
-		for (Particula particula : pso.enxame) {
-
-			double erro = 0;
-
-			double[] novaVelocidade = pso.atualizaVelocidade(particula);
-
-			particula.setVelocidade(novaVelocidade);
-
-			double[] novaPosicao = pso.atualizaPosicao(particula,
-					novaVelocidade);
-
-			particula.setPosicao(novaPosicao);
-
-			erro = pso.meanSquaredError(particula.getPosicao());
-
-			particula.setErro(erro);
-
-			System.out.println("IDENTIFICADOR PARTICULA: "
-					+ particula.getIdentificadorParticula() + " ERRO: " + erro);
-
-			if (particula.getErro() < pso.getBestGlobalError()) {
-
-				System.out.println("#########################################");
-				System.out.println("-----------------------------------------");
-				System.out.println("bestGlobalError "
-						+ pso.getBestGlobalError() + " erro " + erro);
-
-				pso.setBestGlobalError(erro);
-
-				pso.setBestGlobalPosition(novaPosicao);
-
-			} else {
-
-			}
-
-		}
-
-		// System.out
-		// .println("PSO BEST GLOBAL ERROR: " + pso.getBestGlobalError());
-		// System.out.print("PSO BEST GLOBAL POSITION: ");
-		//
-		// for (int i = 0; i < pso.getBestGlobalPosition().length; i++) {
-		// System.out.print(pso.getBestGlobalPosition()[i] + " ");
-		// }
-		// System.out
-		// .println("---------------------------------------------------");
-
-		return pso.getBestGlobalPosition();
 	}
 
 	/**
@@ -255,8 +202,7 @@ public class MLPHibrida {
 		for (int j = 1; j <= numeroNeuroniosEscondida; j++) {
 			camadaEscondida[j] = 0.0;
 			for (int i = 0; i <= numeroNeuroniosEntrada; i++) {
-				camadaEscondida[j] += pesosCamadaEntradaEscondida[j][i]
-						* camadaEntrada[i];
+				camadaEscondida[j] += pesosCamadaEntradaEscondida[j][i] * camadaEntrada[i];
 			}
 			camadaEscondida[j] = 1.0 / (1.0 + Math.exp(-camadaEscondida[j]));
 		}
@@ -267,8 +213,7 @@ public class MLPHibrida {
 			camadaSaida[j] = 0.0;
 			for (int i = 0; i <= numeroNeuroniosEscondida; i++) {
 
-				camadaSaida[j] += pesosCamadaEscondidaSaida[j][i]
-						* camadaEscondida[i];
+				camadaSaida[j] += pesosCamadaEscondidaSaida[j][i] * camadaEscondida[i];
 
 			}
 			camadaSaida[j] = 1.0 / (1.0 + Math.exp(-camadaSaida[j]));
@@ -295,8 +240,7 @@ public class MLPHibrida {
 
 		for (int i = 0; i < numeroNeuroniosSaida; i++) {
 
-			erroL2[i] = camadaSaida[i] * (1.0 - camadaSaida[i])
-					* (saidaDesejada[i] - camadaSaida[i]);
+			erroL2[i] = camadaSaida[i] * (1.0 - camadaSaida[i]) * (saidaDesejada[i] - camadaSaida[i]);
 		}
 
 		for (int i = 0; i <= numeroNeuroniosEscondida; i++) {
@@ -312,15 +256,13 @@ public class MLPHibrida {
 
 		for (int j = 0; j < numeroNeuroniosSaida; j++) {
 			for (int i = 0; i <= numeroNeuroniosEscondida; i++) {
-				pesosCamadaEscondidaSaida[j][i] += TAXA_APRENDIZAGEM
-						* erroL2[j] * camadaEscondida[i];
+				pesosCamadaEscondidaSaida[j][i] += TAXA_APRENDIZAGEM * erroL2[j] * camadaEscondida[i];
 			}
 		}
 
 		for (int j = 1; j <= numeroNeuroniosEscondida; j++) {
 			for (int i = 0; i <= numeroNeuroniosEntrada; i++) {
-				pesosCamadaEntradaEscondida[j][i] += TAXA_APRENDIZAGEM
-						* erroL1[j] * camadaEntrada[i];
+				pesosCamadaEntradaEscondida[j][i] += TAXA_APRENDIZAGEM * erroL1[j] * camadaEntrada[i];
 			}
 		}
 	}
@@ -369,8 +311,7 @@ public class MLPHibrida {
 		return pesosCamadaEntradaEscondida;
 	}
 
-	public void setPesosCamadaEntradaEscondida(
-			double[][] pesosCamadaEntradaEscondida) {
+	public void setPesosCamadaEntradaEscondida(double[][] pesosCamadaEntradaEscondida) {
 		this.pesosCamadaEntradaEscondida = pesosCamadaEntradaEscondida;
 	}
 
@@ -378,8 +319,7 @@ public class MLPHibrida {
 		return pesosCamadaEscondidaSaida;
 	}
 
-	public void setPesosCamadaEscondidaSaida(
-			double[][] pesosCamadaEscondidaSaida) {
+	public void setPesosCamadaEscondidaSaida(double[][] pesosCamadaEscondidaSaida) {
 		this.pesosCamadaEscondidaSaida = pesosCamadaEscondidaSaida;
 	}
 
@@ -391,8 +331,7 @@ public class MLPHibrida {
 		this.qtdePesos = qtdePesos;
 	}
 
-	public double[] treino(int numParticles, int maxEpochs, double exitError,
-			double probDeath) {
+	public double[] treino(int numParticles, int maxEpochs, double exitError, double probDeath) {
 		// PSO version training. best weights stored into NN and returned
 		// particle position == NN weights
 
@@ -400,8 +339,7 @@ public class MLPHibrida {
 
 		int numWeights = (Util.NUMERO_NEURONIOS_CAMADA_ENTRADA * Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA)
 				+ (Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA * Util.NUMERO_NEURONIOS_CAMADA_SAIDA)
-				+ Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA
-				+ Util.NUMERO_NEURONIOS_CAMADA_SAIDA;
+				+ Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA + Util.NUMERO_NEURONIOS_CAMADA_SAIDA;
 
 		// use PSO to seek best weights
 		int epoch = 0;
@@ -429,17 +367,17 @@ public class MLPHibrida {
 			double[] randomVelocity = new double[numWeights];
 
 			for (int j = 0; j < randomVelocity.length; ++j) {
-				// double lo = -1.0 * Math.Abs(maxX - minX);
-				// double hi = Math.Abs(maxX - minX);
-				// randomVelocity[j] = (hi - lo) * rnd.NextDouble() + lo;
 				double lo = 0.1 * minX;
 				double hi = 0.1 * maxX;
 				randomVelocity[j] = (hi - lo) * rnd.nextDouble() + lo;
 
 			}
-			swarm[i] = new Particle(randomPosition, error, randomVelocity,
-					randomPosition, error); // last two are best-position and
-											// best-error
+			swarm[i] = new Particle(randomPosition, error, randomVelocity, randomPosition, error); // last
+																									// two
+																									// are
+																									// best-position
+																									// and
+																									// best-error
 
 			// does current Particle have global best position/solution?
 			if (swarm[i].error < bestGlobalError) {
@@ -453,7 +391,8 @@ public class MLPHibrida {
 		}
 		// initialization
 
-		// Console.WriteLine("Entering main PSO weight estimation processing loop");
+		// Console.WriteLine("Entering main PSO weight estimation processing
+		// loop");
 
 		// main PSO algorithm
 
@@ -490,8 +429,7 @@ public class MLPHibrida {
 					// velocity depends on old velocity, best position of
 					// parrticle, and
 					// best position of any particle
-					newVelocity[j] = (w * currP.velocity[j])
-							+ (c1 * r1 * (currP.bestPosition[j] - currP.position[j]))
+					newVelocity[j] = (w * currP.velocity[j]) + (c1 * r1 * (currP.bestPosition[j] - currP.position[j]))
 							+ (c2 * r2 * (bestGlobalPosition[j] - currP.position[j]));
 				}
 
@@ -546,8 +484,7 @@ public class MLPHibrida {
 				if (die < probDeath) {
 					// new position, leave velocity, update error
 					for (int j = 0; j < currP.position.length; ++j)
-						currP.position[j] = (maxX - minX) * rnd.nextDouble()
-								+ minX;
+						currP.position[j] = (maxX - minX) * rnd.nextDouble() + minX;
 					currP.error = meanSquaredError(currP.position);
 
 					for (int z = 0; z < currP.position.length; z++) {
@@ -585,10 +522,8 @@ public class MLPHibrida {
 
 	public static double meanSquaredError(double[] pesos) {
 
-		MLPHibrida mlpHibrida = new MLPHibrida(
-				Util.NUMERO_NEURONIOS_CAMADA_ENTRADA,
-				Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA,
-				Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
+		MLPHibrida mlpHibrida = new MLPHibrida(Util.NUMERO_NEURONIOS_CAMADA_ENTRADA,
+				Util.NUMERO_NEURONIOS_CAMADA_ESCONDIDA, Util.NUMERO_NEURONIOS_CAMADA_SAIDA);
 
 		ArrayList<String[]> dtTreino = dataset.getDatasetTreino();
 
@@ -617,13 +552,10 @@ public class MLPHibrida {
 
 			double[] saidaRede = mlpHibrida.apresentaPadrao(padrao);
 
-			for (int i = 0; i < tamanhoBaseTreinamento; ++i) {
+			for (int j = 0; j < saidaEsperada.length; ++j) {
 
-				for (int j = 0; j < saidaEsperada.length; ++j) {
+				sumSquaredError += ((saidaRede[j] - saidaEsperada[j]) * (saidaRede[j] - saidaEsperada[j]));
 
-					sumSquaredError += ((saidaRede[j] - saidaEsperada[j]) * (saidaRede[j] - saidaEsperada[j]));
-
-				}
 			}
 		}
 		return sumSquaredError / tamanhoBaseTreinamento;
