@@ -47,20 +47,43 @@ public class FSS {
 			individualOperator(school, individualStep);
 
 			colletive_volitive_operator(school, step_volitive, school_instinctive);
-
+			
 			Arrays.sort(school, new FSS_ComparatorByBestFitness());
 			
-			
+			breeding_operator(school);
+
 			error = meanSquaredError(school[0].current.variables);
-			
-//			System.out.println(error);
-//			System.out.println(iterations);
+
+			// System.out.println(error);
+			// System.out.println(iterations);
 
 			iterations = iterations + 1;
 		}
 
 		Arrays.sort(school, new FSS_ComparatorByBestFitness());
 		return school[0].current.variables;
+	}
+
+	private static void breeding_operator(Fish[] school) {
+
+		for (int i = 0; i < school.length / 2; i = i + 2) {
+			Fish pai = school[i];
+			Fish mae = school[i + 1];
+
+			if (heuristicaEvolutiva(pai) && heuristicaEvolutiva(mae)) {
+				Fish filho = new Fish();
+				filho.current_weight = (pai.current_weight + mae.current_weight) / 2;
+				for (int k = 0; k < filho.current.variables.length; k++) {
+					filho.current.variables[k] = (pai.current.variables[k] + mae.current.variables[k])/2;
+				}
+			}
+		}
+
+	}
+
+	private static boolean heuristicaEvolutiva(Fish fish) {
+
+		return fish.current_weight >= Util.W_SCALE;
 	}
 
 	private static int colletive_volitive_operator(Fish[] school, double step_size, double[] school_instinctive) {
