@@ -35,11 +35,11 @@ public class Main {
 			for (int fold = 1; fold <= 10; fold++) {
 				try {
 					datasetCarregadoTeste = Util.leituraCSV(
-							"/Users/moura/Pessoal/mestrado/br.ufpe.cin.mlp.fss.pso/src/dataset/IRIS_FOLD/execucao_"
+							"/Users/edumarcelino/Documents/workspace/br.ufpe.cin.mlp.fss.pso/src/dataset/ECOLI_FOLD/execucao_"
 									+ execucao + "_fold_" + fold + "_TESTE.csv",
 							",");
 					datasetCarregadoTreino = Util.leituraCSV(
-							"/Users/moura/Pessoal/mestrado/br.ufpe.cin.mlp.fss.pso/src/dataset/IRIS_FOLD//execucao_"
+							"/Users/edumarcelino/Documents/workspace/br.ufpe.cin.mlp.fss.pso/src/dataset/ECOLI_FOLD/execucao_"
 									+ execucao + "_fold_" + fold + "_TREINO.csv",
 							",");
 				} catch (IOException e) {
@@ -75,12 +75,20 @@ public class Main {
 					padrao[1] = Double.parseDouble(dt[1]);
 					padrao[2] = Double.parseDouble(dt[2]);
 					padrao[3] = Double.parseDouble(dt[3]);
+					padrao[4] = Double.parseDouble(dt[4]);
+					padrao[5] = Double.parseDouble(dt[5]);
+					padrao[6] = Double.parseDouble(dt[6]);
 
 					// Converte a saida esperada para o treinamento
 					saidaEsperada = new double[3];
-					saidaEsperada[0] = Double.parseDouble(dt[4]);
-					saidaEsperada[1] = Double.parseDouble(dt[5]);
-					saidaEsperada[2] = Double.parseDouble(dt[6]);
+					saidaEsperada[0] = Double.parseDouble(dt[8]);
+					saidaEsperada[1] = Double.parseDouble(dt[9]);
+					saidaEsperada[2] = Double.parseDouble(dt[10]);
+					saidaEsperada[3] = Double.parseDouble(dt[11]);
+					saidaEsperada[4] = Double.parseDouble(dt[12]);
+					saidaEsperada[5] = Double.parseDouble(dt[13]);
+					saidaEsperada[6] = Double.parseDouble(dt[14]);
+					saidaEsperada[7] = Double.parseDouble(dt[15]);
 					acumuladorEsperada.add(saidaEsperada);
 
 					saidaRede = mlp.apresentaPadrao(padrao);
