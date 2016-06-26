@@ -70,6 +70,7 @@ public class Main {
 				for (String[] dt : datasetCarregadoTeste) {
 
 					// Converte a linha do dataset para treinar a rede MLP
+					// Converte a linha do dataset para treinar a rede MLP
 					padrao = new double[7];
 					padrao[0] = Double.parseDouble(dt[0]);
 					padrao[1] = Double.parseDouble(dt[1]);
@@ -81,18 +82,18 @@ public class Main {
 
 					// Converte a saida esperada para o treinamento
 					saidaEsperada = new double[8];
-					saidaEsperada[0] = Double.parseDouble(dt[8]);
-					saidaEsperada[1] = Double.parseDouble(dt[9]);
-					saidaEsperada[2] = Double.parseDouble(dt[10]);
-					saidaEsperada[3] = Double.parseDouble(dt[11]);
-					saidaEsperada[4] = Double.parseDouble(dt[12]);
-					saidaEsperada[5] = Double.parseDouble(dt[13]);
-					saidaEsperada[6] = Double.parseDouble(dt[14]);
-					saidaEsperada[7] = Double.parseDouble(dt[15]);
+					saidaEsperada[0] = Double.parseDouble(dt[7]);
+					saidaEsperada[1] = Double.parseDouble(dt[8]);
+					saidaEsperada[2] = Double.parseDouble(dt[9]);
+					saidaEsperada[3] = Double.parseDouble(dt[10]);
+					saidaEsperada[4] = Double.parseDouble(dt[11]);
+					saidaEsperada[5] = Double.parseDouble(dt[12]);
+					saidaEsperada[6] = Double.parseDouble(dt[13]);
+					saidaEsperada[7] = Double.parseDouble(dt[14]);
 					acumuladorEsperada.add(saidaEsperada);
 
 					saidaRede = mlp.apresentaPadrao(padrao);
-					double[] saidaRedeTemp = new double[3];
+					double[] saidaRedeTemp = new double[8];
 					for (int i = 0; i < saidaRede.length; i++) {
 						saidaRedeTemp[i] = saidaRede[i];
 					}

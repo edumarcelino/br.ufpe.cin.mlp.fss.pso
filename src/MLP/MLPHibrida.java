@@ -141,14 +141,14 @@ public class MLPHibrida {
 
 					// Converte a saida esperada para o treinamento
 					double [] saidaEsperada = new double[8];
-					saidaEsperada[0] = Double.parseDouble(linha[8]);
-					saidaEsperada[1] = Double.parseDouble(linha[9]);
-					saidaEsperada[2] = Double.parseDouble(linha[10]);
-					saidaEsperada[3] = Double.parseDouble(linha[11]);
-					saidaEsperada[4] = Double.parseDouble(linha[12]);
-					saidaEsperada[5] = Double.parseDouble(linha[13]);
-					saidaEsperada[6] = Double.parseDouble(linha[14]);
-					saidaEsperada[7] = Double.parseDouble(linha[15]);
+					saidaEsperada[0] = Double.parseDouble(linha[7]);
+					saidaEsperada[1] = Double.parseDouble(linha[8]);
+					saidaEsperada[2] = Double.parseDouble(linha[9]);
+					saidaEsperada[3] = Double.parseDouble(linha[10]);
+					saidaEsperada[4] = Double.parseDouble(linha[11]);
+					saidaEsperada[5] = Double.parseDouble(linha[12]);
+					saidaEsperada[6] = Double.parseDouble(linha[13]);
+					saidaEsperada[7] = Double.parseDouble(linha[14]);
 
 					// Apresenta o padr�o para a rede neural
 					double[] saidaRede = apresentaPadrao(padrao);
@@ -546,6 +546,8 @@ public class MLPHibrida {
 
 			String[] linha = (String[]) iterator.next();
 
+			// Converte a linha do dataset para treinar a rede MLP
+			// Converte a linha do dataset para treinar a rede MLP
 			double[] padrao = new double[7];
 			padrao[0] = Double.parseDouble(linha[0]);
 			padrao[1] = Double.parseDouble(linha[1]);
@@ -557,14 +559,14 @@ public class MLPHibrida {
 
 			// Converte a saida esperada para o treinamento
 			double [] saidaEsperada = new double[8];
-			saidaEsperada[0] = Double.parseDouble(linha[8]);
-			saidaEsperada[1] = Double.parseDouble(linha[9]);
-			saidaEsperada[2] = Double.parseDouble(linha[10]);
-			saidaEsperada[3] = Double.parseDouble(linha[11]);
-			saidaEsperada[4] = Double.parseDouble(linha[12]);
-			saidaEsperada[5] = Double.parseDouble(linha[13]);
-			saidaEsperada[6] = Double.parseDouble(linha[14]);
-			saidaEsperada[7] = Double.parseDouble(linha[15]);
+			saidaEsperada[0] = Double.parseDouble(linha[7]);
+			saidaEsperada[1] = Double.parseDouble(linha[8]);
+			saidaEsperada[2] = Double.parseDouble(linha[9]);
+			saidaEsperada[3] = Double.parseDouble(linha[10]);
+			saidaEsperada[4] = Double.parseDouble(linha[11]);
+			saidaEsperada[5] = Double.parseDouble(linha[12]);
+			saidaEsperada[6] = Double.parseDouble(linha[13]);
+			saidaEsperada[7] = Double.parseDouble(linha[14]);
 
 
 			double[] saidaRede = mlpHibrida.apresentaPadrao(padrao);
