@@ -53,7 +53,7 @@ public class Main {
 				dataset.setDatasetTeste(datasetCarregadoTeste);
 				dataset.setDatasetTreino(datasetCarregadoTreino);
 
-				tipoTreinamento = mlp.TREINAMENTO_BACK_PROPAGATION;
+				tipoTreinamento = mlp.TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION;
 
 				for (int i = 0; i < 1; i++) {
 					// Treinamento para a rede neural
@@ -102,7 +102,7 @@ public class Main {
 				}
 				double acuracia = accuracy(acumuladorEsperada, acumuladorRede);
 				acuraciaMediaPorExecucao = acuraciaMediaPorExecucao + acuracia;
-				System.out.println("Execucao: " + execucao + " Fold: " + fold + " Acurácia: " + acuracia);
+				//System.out.println("Execucao: " + execucao + " Fold: " + fold + " Acurácia: " + acuracia);
 			}
 //			System.out.println("Acuracia média da execucao " + execucao + " -> " + acuraciaMediaPorExecucao / 10);
 			System.out.println(acuraciaMediaPorExecucao / 10);

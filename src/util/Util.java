@@ -23,12 +23,10 @@ public class Util {
 	// Fim das constantes da MLP
 
 	// Constantes do PSO
-
-	public static int NUMERO_ITERACOES_PSO = 1;
 	
-	public static int MAX_EPOCHS = 700;
+	public static int MAX_EPOCHS = 2000;
 	
-	public static int NUMBER_OF_PARTICLES = 12;
+	public static int NUMBER_OF_PARTICLES = 10;
 	
 	public static double PROB_DEATH = 0.005;
 
