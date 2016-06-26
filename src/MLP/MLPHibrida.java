@@ -130,7 +130,7 @@ public class MLPHibrida {
 
 					// Converte a linha do dataset para treinar a rede MLP
 					// Converte a linha do dataset para treinar a rede MLP
-					double[] padrao = new double[4];
+					double[] padrao = new double[7];
 					padrao[0] = Double.parseDouble(linha[0]);
 					padrao[1] = Double.parseDouble(linha[1]);
 					padrao[2] = Double.parseDouble(linha[2]);
@@ -140,7 +140,7 @@ public class MLPHibrida {
 					padrao[6] = Double.parseDouble(linha[6]);
 
 					// Converte a saida esperada para o treinamento
-					double [] saidaEsperada = new double[3];
+					double [] saidaEsperada = new double[8];
 					saidaEsperada[0] = Double.parseDouble(linha[8]);
 					saidaEsperada[1] = Double.parseDouble(linha[9]);
 					saidaEsperada[2] = Double.parseDouble(linha[10]);
@@ -546,8 +546,7 @@ public class MLPHibrida {
 
 			String[] linha = (String[]) iterator.next();
 
-			// Converte a linha do dataset para treinar a rede MLP
-			double[] padrao = new double[4];
+			double[] padrao = new double[7];
 			padrao[0] = Double.parseDouble(linha[0]);
 			padrao[1] = Double.parseDouble(linha[1]);
 			padrao[2] = Double.parseDouble(linha[2]);
@@ -557,7 +556,7 @@ public class MLPHibrida {
 			padrao[6] = Double.parseDouble(linha[6]);
 
 			// Converte a saida esperada para o treinamento
-			double[] saidaEsperada = new double[3];
+			double [] saidaEsperada = new double[8];
 			saidaEsperada[0] = Double.parseDouble(linha[8]);
 			saidaEsperada[1] = Double.parseDouble(linha[9]);
 			saidaEsperada[2] = Double.parseDouble(linha[10]);

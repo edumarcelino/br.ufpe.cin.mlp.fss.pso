@@ -53,7 +53,7 @@ public class Main {
 				dataset.setDatasetTeste(datasetCarregadoTeste);
 				dataset.setDatasetTreino(datasetCarregadoTreino);
 
-				tipoTreinamento = mlp.TREINAMENTO_FISH_SCHOOL_SEARCH;
+				tipoTreinamento = mlp.TREINAMENTO_BACK_PROPAGATION;
 
 				for (int i = 0; i < 1; i++) {
 					// Treinamento para a rede neural
@@ -70,7 +70,7 @@ public class Main {
 				for (String[] dt : datasetCarregadoTeste) {
 
 					// Converte a linha do dataset para treinar a rede MLP
-					padrao = new double[4];
+					padrao = new double[7];
 					padrao[0] = Double.parseDouble(dt[0]);
 					padrao[1] = Double.parseDouble(dt[1]);
 					padrao[2] = Double.parseDouble(dt[2]);
@@ -80,7 +80,7 @@ public class Main {
 					padrao[6] = Double.parseDouble(dt[6]);
 
 					// Converte a saida esperada para o treinamento
-					saidaEsperada = new double[3];
+					saidaEsperada = new double[8];
 					saidaEsperada[0] = Double.parseDouble(dt[8]);
 					saidaEsperada[1] = Double.parseDouble(dt[9]);
 					saidaEsperada[2] = Double.parseDouble(dt[10]);
