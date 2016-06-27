@@ -72,10 +72,27 @@ public class FSS {
 
 			if (heuristicaEvolutiva(pai) && heuristicaEvolutiva(mae)) {
 				Fish filho = new Fish();
+				filho.current = new FSS_Solution(quantidadePesos);
+				filho.current.randomize_variables();
+				filho.best = new FSS_Solution(quantidadePesos);
+				filho.best.randomize_variables();
+				filho.neighbor = new FSS_Solution(quantidadePesos);
+				filho.neighbor.randomize_variables();
+
+				filho.current.fitness = meanSquaredError(filho.current.variables);
+
+				FSS_Solution.copy(filho.current, filho.best);
+				FSS_Solution.copy(filho.current, filho.neighbor);
+
+				filho.delta_x = new double[quantidadePesos];
+				filho.current_weight = Util.W_SCALE / 2;
+				filho.past_weight = filho.current_weight;
+
 				filho.current_weight = (pai.current_weight + mae.current_weight) / 2;
 				for (int k = 0; k < filho.current.variables.length; k++) {
 					filho.current.variables[k] = (pai.current.variables[k] + mae.current.variables[k])/2;
 				}
+                school[school.length -1] = filho;
 			}
 		}
 

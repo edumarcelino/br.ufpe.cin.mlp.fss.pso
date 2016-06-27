@@ -35,11 +35,11 @@ public class Main {
 			for (int fold = 1; fold <= 10; fold++) {
 				try {
 					datasetCarregadoTeste = Util.leituraCSV(
-							"/Users/edumarcelino/Documents/workspace/br.ufpe.cin.mlp.fss.pso/src/dataset/ECOLI_FOLD/execucao_"
+							"/Users/moura/Mestrado/SistemasInteligentesHibridos/br.ufpe.cin.mlp.fss.pso/src/dataset/ECOLI_FOLD/execucao_"
 									+ execucao + "_fold_" + fold + "_TESTE.csv",
 							",");
 					datasetCarregadoTreino = Util.leituraCSV(
-							"/Users/edumarcelino/Documents/workspace/br.ufpe.cin.mlp.fss.pso/src/dataset/ECOLI_FOLD/execucao_"
+							"/Users/moura/Mestrado/SistemasInteligentesHibridos/br.ufpe.cin.mlp.fss.pso/src/dataset/ECOLI_FOLD/execucao_"
 									+ execucao + "_fold_" + fold + "_TREINO.csv",
 							",");
 				} catch (IOException e) {
