@@ -57,7 +57,7 @@ public class Main {
 
 				tipoTreinamento = mlp.TREINAMENTO_BACK_PROPAGATION;
 
-				for (int i = 0; i < 1; i++) {
+				for (int epoca = 0; epoca < 500; epoca++) {
 					
 					// Treinamento para a rede neural
 					double[] pesos = mlp.treinamento(datasetCarregadoTreino, tipoTreinamento, dataset);
@@ -102,7 +102,7 @@ public class Main {
 				}
 				double acuracia = accuracy(acumuladorEsperada, acumuladorRede);
 				acuraciaMediaPorExecucao = acuraciaMediaPorExecucao + acuracia;
-				System.out.println("Execucao: " + execucao + " Fold: " + fold + " Acurácia: " + acuracia);
+				//System.out.println("Execucao: " + execucao + " Fold: " + fold + " Acurácia: " + acuracia);
 			}
 //			System.out.println("Acuracia média da execucao " + execucao + " -> " + acuraciaMediaPorExecucao / 10);
 			System.out.println(acuraciaMediaPorExecucao / 10);
