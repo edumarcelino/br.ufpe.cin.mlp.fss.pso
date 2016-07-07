@@ -30,16 +30,18 @@ public class Main {
 		ArrayList<String[]> datasetCarregadoTreino = new ArrayList<String[]>();
 
 		for (int execucao = 1; execucao <= 30; execucao++) {
-//			long tempoInicio = System.currentTimeMillis();
+
+			//			long tempoInicio = System.currentTimeMillis();
 			double acuraciaMediaPorExecucao = 0.0;
+			
 			for (int fold = 1; fold <= 10; fold++) {
 				try {
 					datasetCarregadoTeste = Util.leituraCSV(
-							"/Users/moura/Mestrado/SistemasInteligentesHibridos/br.ufpe.cin.mlp.fss.pso/src/dataset/ECOLI_FOLD/execucao_"
+							"C:/Users/Eduardo/workspace/br.ufpe.cin.mlp.fss.pso/src/dataset/USERKNOWLEDGE/execucao_"
 									+ execucao + "_fold_" + fold + "_TESTE.csv",
 							",");
 					datasetCarregadoTreino = Util.leituraCSV(
-							"/Users/moura/Mestrado/SistemasInteligentesHibridos/br.ufpe.cin.mlp.fss.pso/src/dataset/ECOLI_FOLD/execucao_"
+							"C:/Users/Eduardo/workspace/br.ufpe.cin.mlp.fss.pso/src/dataset/USERKNOWLEDGE/execucao_"
 									+ execucao + "_fold_" + fold + "_TREINO.csv",
 							",");
 				} catch (IOException e) {
@@ -53,9 +55,10 @@ public class Main {
 				dataset.setDatasetTeste(datasetCarregadoTeste);
 				dataset.setDatasetTreino(datasetCarregadoTreino);
 
-				tipoTreinamento = mlp.TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION;
+				tipoTreinamento = mlp.TREINAMENTO_BACK_PROPAGATION;
 
 				for (int i = 0; i < 1; i++) {
+					
 					// Treinamento para a rede neural
 					double[] pesos = mlp.treinamento(datasetCarregadoTreino, tipoTreinamento, dataset);
 
@@ -71,30 +74,27 @@ public class Main {
 
 					// Converte a linha do dataset para treinar a rede MLP
 					// Converte a linha do dataset para treinar a rede MLP
-					padrao = new double[7];
+					padrao = new double[5];
 					padrao[0] = Double.parseDouble(dt[0]);
 					padrao[1] = Double.parseDouble(dt[1]);
 					padrao[2] = Double.parseDouble(dt[2]);
 					padrao[3] = Double.parseDouble(dt[3]);
 					padrao[4] = Double.parseDouble(dt[4]);
-					padrao[5] = Double.parseDouble(dt[5]);
-					padrao[6] = Double.parseDouble(dt[6]);
+
 
 					// Converte a saida esperada para o treinamento
-					saidaEsperada = new double[8];
-					saidaEsperada[0] = Double.parseDouble(dt[7]);
-					saidaEsperada[1] = Double.parseDouble(dt[8]);
-					saidaEsperada[2] = Double.parseDouble(dt[9]);
-					saidaEsperada[3] = Double.parseDouble(dt[10]);
-					saidaEsperada[4] = Double.parseDouble(dt[11]);
-					saidaEsperada[5] = Double.parseDouble(dt[12]);
-					saidaEsperada[6] = Double.parseDouble(dt[13]);
-					saidaEsperada[7] = Double.parseDouble(dt[14]);
+					saidaEsperada = new double[4];
+					saidaEsperada[0] = Double.parseDouble(dt[5]);
+					saidaEsperada[1] = Double.parseDouble(dt[6]);
+					saidaEsperada[2] = Double.parseDouble(dt[7]);
+					saidaEsperada[3] = Double.parseDouble(dt[8]);
+
 					acumuladorEsperada.add(saidaEsperada);
 
 					saidaRede = mlp.apresentaPadrao(padrao);
-					double[] saidaRedeTemp = new double[8];
+					double[] saidaRedeTemp = new double[4];
 					for (int i = 0; i < saidaRede.length; i++) {
+						
 						saidaRedeTemp[i] = saidaRede[i];
 					}
 
@@ -102,7 +102,7 @@ public class Main {
 				}
 				double acuracia = accuracy(acumuladorEsperada, acumuladorRede);
 				acuraciaMediaPorExecucao = acuraciaMediaPorExecucao + acuracia;
-				//System.out.println("Execucao: " + execucao + " Fold: " + fold + " Acurácia: " + acuracia);
+				System.out.println("Execucao: " + execucao + " Fold: " + fold + " Acurácia: " + acuracia);
 			}
 //			System.out.println("Acuracia média da execucao " + execucao + " -> " + acuraciaMediaPorExecucao / 10);
 			System.out.println(acuraciaMediaPorExecucao / 10);
