@@ -14,19 +14,19 @@ public class Util {
 
 	// Constantes da MLP
 
-	public static int NUMERO_NEURONIOS_CAMADA_ENTRADA = 7;
+	public static int NUMERO_NEURONIOS_CAMADA_ENTRADA = 5;
 
-	public static int NUMERO_NEURONIOS_CAMADA_SAIDA = 8;
+	public static int NUMERO_NEURONIOS_CAMADA_SAIDA = 4;
 
-	public static int NUMERO_NEURONIOS_CAMADA_ESCONDIDA = 7;
+	public static int NUMERO_NEURONIOS_CAMADA_ESCONDIDA = 5;
 
 	// Fim das constantes da MLP
 
 	// Constantes do PSO
 	
-	public static int MAX_EPOCHS = 2000;
+	public static int MAX_EPOCHS = 1000;
 	
-	public static int NUMBER_OF_PARTICLES = 10;
+	public static int NUMBER_OF_PARTICLES = 100;
 	
 	public static double PROB_DEATH = 0.005;
 
