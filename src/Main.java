@@ -55,9 +55,9 @@ public class Main {
 				dataset.setDatasetTeste(datasetCarregadoTeste);
 				dataset.setDatasetTreino(datasetCarregadoTreino);
 
-				tipoTreinamento = mlp.TREINAMENTO_BACK_PROPAGATION;
+				tipoTreinamento = mlp.TREINAMENTO_PARTICLE_SWARM_OPTIMIZATION;
 
-				for (int epoca = 0; epoca < 500; epoca++) {
+				for (int epoca = 0; epoca < 1; epoca++) {
 					
 					// Treinamento para a rede neural
 					double[] pesos = mlp.treinamento(datasetCarregadoTreino, tipoTreinamento, dataset);
