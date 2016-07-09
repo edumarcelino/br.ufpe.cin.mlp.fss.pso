@@ -26,7 +26,7 @@ public class Util {
 	
 	public static int MAX_EPOCHS = 1000;
 	
-	public static int NUMBER_OF_PARTICLES = 100;
+	public static int NUMBER_OF_PARTICLES = 50;
 	
 	public static double PROB_DEATH = 0.005;
 
