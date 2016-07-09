@@ -146,17 +146,20 @@ public class PSO {
             String[] linha = (String[]) iterator.next();
 
             // Converte a linha do dataset para treinar a rede MLP
-            double[] padrao = new double[4];
-            padrao[0] = Double.parseDouble(linha[0]);
-            padrao[1] = Double.parseDouble(linha[1]);
-            padrao[2] = Double.parseDouble(linha[2]);
-            padrao[3] = Double.parseDouble(linha[3]);
+			double[] padrao = new double[5];
+			padrao[0] = Double.parseDouble(linha[0]);
+			padrao[1] = Double.parseDouble(linha[1]);
+			padrao[2] = Double.parseDouble(linha[2]);
+			padrao[3] = Double.parseDouble(linha[3]);
+			padrao[4] = Double.parseDouble(linha[4]);
 
-            // Converte a saida esperada para o treinamento
-            double[] saidaEsperada = new double[3];
-            saidaEsperada[0] = Double.parseDouble(linha[4]);
-            saidaEsperada[1] = Double.parseDouble(linha[5]);
-            saidaEsperada[2] = Double.parseDouble(linha[6]);
+
+			// Converte a saida esperada para o treinamento
+			double[] saidaEsperada = new double[4];
+			saidaEsperada[0] = Double.parseDouble(linha[5]);
+			saidaEsperada[1] = Double.parseDouble(linha[6]);
+			saidaEsperada[2] = Double.parseDouble(linha[7]);
+			saidaEsperada[3] = Double.parseDouble(linha[8]);
 
             double [] saidaRede = mlpHibrida.apresentaPadrao(padrao);
 
